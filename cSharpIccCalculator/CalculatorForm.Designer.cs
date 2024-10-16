@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             this.buttonClear = new System.Windows.Forms.Button();
-            this.textBoxCurrentEntry = new System.Windows.Forms.TextBox();
-            this.textBoxPreviousEntry = new System.Windows.Forms.TextBox();
+            this.textBoxPresentValue = new System.Windows.Forms.TextBox();
+            this.textBoxPreviousValue = new System.Windows.Forms.TextBox();
             this.buttonDivision = new System.Windows.Forms.Button();
             this.buttonClearRecentEntry = new System.Windows.Forms.Button();
             this.buttonModulus = new System.Windows.Forms.Button();
@@ -49,6 +49,9 @@
             this.buttonEqual = new System.Windows.Forms.Button();
             this.button0 = new System.Windows.Forms.Button();
             this.buttonAddition = new System.Windows.Forms.Button();
+            this.buttonCalculator = new System.Windows.Forms.Button();
+            this.buttonHistory = new System.Windows.Forms.Button();
+            this.ucHistoryForm = new cSharpIccCalculator.HistoryForm();
             this.SuspendLayout();
             // 
             // buttonClear
@@ -57,7 +60,7 @@
             this.buttonClear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClear.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonClear.ForeColor = System.Drawing.Color.IndianRed;
             this.buttonClear.Location = new System.Drawing.Point(18, 278);
             this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClear.Name = "buttonClear";
@@ -67,39 +70,39 @@
             this.buttonClear.UseVisualStyleBackColor = false;
             this.buttonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
-            // textBoxCurrentEntry
+            // textBoxPresentValue
             // 
-            this.textBoxCurrentEntry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxPresentValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxCurrentEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBoxCurrentEntry.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxCurrentEntry.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxCurrentEntry.Font = new System.Drawing.Font("Gadugi", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxCurrentEntry.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.textBoxCurrentEntry.Location = new System.Drawing.Point(18, 139);
-            this.textBoxCurrentEntry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 30);
-            this.textBoxCurrentEntry.Name = "textBoxCurrentEntry";
-            this.textBoxCurrentEntry.ReadOnly = true;
-            this.textBoxCurrentEntry.Size = new System.Drawing.Size(525, 67);
-            this.textBoxCurrentEntry.TabIndex = 0;
-            this.textBoxCurrentEntry.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxPresentValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBoxPresentValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPresentValue.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBoxPresentValue.Font = new System.Drawing.Font("Gadugi", 30F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxPresentValue.ForeColor = System.Drawing.Color.WhiteSmoke;
+            this.textBoxPresentValue.Location = new System.Drawing.Point(17, 152);
+            this.textBoxPresentValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 30);
+            this.textBoxPresentValue.Name = "textBoxPresentValue";
+            this.textBoxPresentValue.ReadOnly = true;
+            this.textBoxPresentValue.Size = new System.Drawing.Size(525, 67);
+            this.textBoxPresentValue.TabIndex = 0;
+            this.textBoxPresentValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // textBoxPreviousEntry
+            // textBoxPreviousValue
             // 
-            this.textBoxPreviousEntry.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.textBoxPreviousValue.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBoxPreviousEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
-            this.textBoxPreviousEntry.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBoxPreviousEntry.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.textBoxPreviousEntry.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBoxPreviousEntry.ForeColor = System.Drawing.Color.DarkGray;
-            this.textBoxPreviousEntry.Location = new System.Drawing.Point(18, 52);
-            this.textBoxPreviousEntry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 50);
-            this.textBoxPreviousEntry.Name = "textBoxPreviousEntry";
-            this.textBoxPreviousEntry.ReadOnly = true;
-            this.textBoxPreviousEntry.Size = new System.Drawing.Size(525, 34);
-            this.textBoxPreviousEntry.TabIndex = 1;
-            this.textBoxPreviousEntry.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
+            this.textBoxPreviousValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.textBoxPreviousValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBoxPreviousValue.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBoxPreviousValue.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxPreviousValue.ForeColor = System.Drawing.Color.DarkGray;
+            this.textBoxPreviousValue.Location = new System.Drawing.Point(17, 65);
+            this.textBoxPreviousValue.Margin = new System.Windows.Forms.Padding(4, 3, 4, 50);
+            this.textBoxPreviousValue.Name = "textBoxPreviousValue";
+            this.textBoxPreviousValue.ReadOnly = true;
+            this.textBoxPreviousValue.Size = new System.Drawing.Size(526, 34);
+            this.textBoxPreviousValue.TabIndex = 1;
+            this.textBoxPreviousValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // buttonDivision
             // 
@@ -125,7 +128,7 @@
             this.buttonClearRecentEntry.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonClearRecentEntry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearRecentEntry.Font = new System.Drawing.Font("Gadugi", 15F);
-            this.buttonClearRecentEntry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonClearRecentEntry.ForeColor = System.Drawing.Color.IndianRed;
             this.buttonClearRecentEntry.Location = new System.Drawing.Point(151, 278);
             this.buttonClearRecentEntry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClearRecentEntry.Name = "buttonClearRecentEntry";
@@ -360,7 +363,7 @@
             this.buttonEqual.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonEqual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEqual.Font = new System.Drawing.Font("Gadugi", 15F);
-            this.buttonEqual.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonEqual.ForeColor = System.Drawing.Color.LimeGreen;
             this.buttonEqual.Location = new System.Drawing.Point(418, 686);
             this.buttonEqual.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonEqual.Name = "buttonEqual";
@@ -403,6 +406,53 @@
             this.buttonAddition.UseVisualStyleBackColor = false;
             this.buttonAddition.Click += new System.EventHandler(this.operation_click);
             // 
+            // buttonCalculator
+            // 
+            this.buttonCalculator.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonCalculator.FlatAppearance.BorderSize = 0;
+            this.buttonCalculator.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonCalculator.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonCalculator.Location = new System.Drawing.Point(18, 18);
+            this.buttonCalculator.Margin = new System.Windows.Forms.Padding(3, 3, 3, 10);
+            this.buttonCalculator.Name = "buttonCalculator";
+            this.buttonCalculator.Size = new System.Drawing.Size(125, 34);
+            this.buttonCalculator.TabIndex = 39;
+            this.buttonCalculator.Text = "Calculator";
+            this.buttonCalculator.UseVisualStyleBackColor = true;
+            this.buttonCalculator.Visible = false;
+            this.buttonCalculator.Click += new System.EventHandler(this.buttonCalculator_Click);
+            // 
+            // buttonHistory
+            // 
+            this.buttonHistory.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.buttonHistory.FlatAppearance.BorderSize = 0;
+            this.buttonHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonHistory.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.buttonHistory.Location = new System.Drawing.Point(418, 18);
+            this.buttonHistory.Name = "buttonHistory";
+            this.buttonHistory.Size = new System.Drawing.Size(125, 34);
+            this.buttonHistory.TabIndex = 40;
+            this.buttonHistory.Text = "History";
+            this.buttonHistory.UseVisualStyleBackColor = true;
+            this.buttonHistory.Click += new System.EventHandler(this.buttonHistory_Click);
+            // 
+            // ucHistoryForm
+            // 
+            this.ucHistoryForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ucHistoryForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
+            this.ucHistoryForm.Font = new System.Drawing.Font("Gadugi", 12F);
+            this.ucHistoryForm.Location = new System.Drawing.Point(18, 278);
+            this.ucHistoryForm.Margin = new System.Windows.Forms.Padding(4);
+            this.ucHistoryForm.Name = "ucHistoryForm";
+            this.ucHistoryForm.Padding = new System.Windows.Forms.Padding(15);
+            this.ucHistoryForm.Size = new System.Drawing.Size(525, 503);
+            this.ucHistoryForm.TabIndex = 41;
+            this.ucHistoryForm.Visible = false;
+            // 
             // CalculatorForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(120F, 120F);
@@ -411,6 +461,9 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.ClientSize = new System.Drawing.Size(561, 800);
+            this.Controls.Add(this.ucHistoryForm);
+            this.Controls.Add(this.buttonHistory);
+            this.Controls.Add(this.buttonCalculator);
             this.Controls.Add(this.buttonAddition);
             this.Controls.Add(this.buttonDot);
             this.Controls.Add(this.buttonEqual);
@@ -430,8 +483,8 @@
             this.Controls.Add(this.buttonClearRecentEntry);
             this.Controls.Add(this.buttonDivision);
             this.Controls.Add(this.buttonClear);
-            this.Controls.Add(this.textBoxCurrentEntry);
-            this.Controls.Add(this.textBoxPreviousEntry);
+            this.Controls.Add(this.textBoxPresentValue);
+            this.Controls.Add(this.textBoxPreviousValue);
             this.Font = new System.Drawing.Font("Gadugi", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
@@ -449,8 +502,8 @@
 
         #endregion
         private System.Windows.Forms.Button buttonClear;
-        private System.Windows.Forms.TextBox textBoxCurrentEntry;
-        private System.Windows.Forms.TextBox textBoxPreviousEntry;
+        private System.Windows.Forms.TextBox textBoxPresentValue;
+        private System.Windows.Forms.TextBox textBoxPreviousValue;
         private System.Windows.Forms.Button buttonDivision;
         private System.Windows.Forms.Button buttonClearRecentEntry;
         private System.Windows.Forms.Button buttonModulus;
@@ -469,6 +522,9 @@
         private System.Windows.Forms.Button buttonEqual;
         private System.Windows.Forms.Button button0;
         private System.Windows.Forms.Button buttonAddition;
+        private System.Windows.Forms.Button buttonCalculator;
+        private System.Windows.Forms.Button buttonHistory;
+        private HistoryForm ucHistoryForm;
     }
 }
 
