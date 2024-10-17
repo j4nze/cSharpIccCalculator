@@ -29,14 +29,14 @@ namespace cSharpIccCalculator
         {
             Button button = (Button)sender;
 
-            isOperationPerformed = false;
-            isOperatorUsed = false;
+            if (textBoxPresentValue.Text == "Error") return;
 
             if (button.Text == "0")
             {
-                if (isZeroWholeUsed) return;
+                if (isZeroWholeUsed) return;    // avoid appending whole 0
 
-                if (!isDecimalUsed || (!isDecimalUsed && !isOperatorUsed))
+                // enable using whole 0 again after an operator
+                if (!isDecimalUsed || (!isDecimalUsed && !isOperatorUsed))  
                 {
                     textBoxPresentValue.Text += "0";
                     isZeroWholeUsed = true;
@@ -47,11 +47,10 @@ namespace cSharpIccCalculator
 
             if (button.Text == ".")
             {
-
                 if (isDecimalUsed) return;  // avoid appending multiple decimal points
 
                 // if textbox is empty or contains only ., . = 0. (if no other entry)
-                if (textBoxPresentValue.Text.Length == 0 || textBoxPresentValue.Text == ".")
+                if (textBoxPresentValue.Text.Length == 0 || textBoxPresentValue.Text == ".") 
                 {
                     textBoxPresentValue.Text = "0.";
                     isDecimalUsed = true; 
@@ -75,6 +74,9 @@ namespace cSharpIccCalculator
                 isZeroWholeUsed = false;
             }
 
+            isOperationPerformed = false;
+            isOperatorUsed = false;
+
             textBoxPresentValue.Text += button.Text;
         }
 
@@ -83,21 +85,25 @@ namespace cSharpIccCalculator
         {
             Button button = (Button)sender;
 
+            if (textBoxPresentValue.Text == "Error") return;
+
+            // avoid appending multiple operators and enable overwrite
+            if (textBoxPresentValue.Text.Length > 0)
+            {
+                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
+
+                if ("+-*/%".Contains(lastChar)) textBoxPresentValue.Text = textBoxPresentValue.Text.Substring(0, textBoxPresentValue.Text.Length - 1);
+            }
+
             isOperationPerformed = false;
             isDecimalUsed = false;
             isZeroWholeUsed = false;
             isOperatorUsed = true;
 
-            if (textBoxPresentValue.Text.Length == 0 && button.Text != "-") return; // allow negative value as the first value
-
-            if (textBoxPresentValue.Text.Length > 0)    // avoid appending multiple operators
-            {
-                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-
-                if ("+-*/%".Contains(lastChar)) textBoxPresentValue.Text = textBoxPresentValue.Text.Remove(textBoxPresentValue.Text.Length - 1);
-            }
-
             textBoxPresentValue.Text += button.Text;
+
+            // remove any operator (first char) after clicking -
+            if (textBoxPresentValue.Text.Length <= 1 && button.Text != "-") textBoxPresentValue.Text = "";
         }
 
         private void buttonEqual_Click(object sender, EventArgs e)
@@ -105,6 +111,7 @@ namespace cSharpIccCalculator
             try
             {
                 if (isOperationPerformed == true) return;           // avoid passing value from current to previous textBox after an operation
+
                 if (textBoxPresentValue.Text == "Error") return;    // avoid passing value from current to previous textBox after an operation with an Error
 
                 textBoxPreviousValue.Text = textBoxPresentValue.Text;
@@ -113,11 +120,9 @@ namespace cSharpIccCalculator
 
                 var result = new DataTable().Compute(textBoxPresentValue.Text, null); // evaluate mathematical expression
 
-                double convertedResult = Convert.ToDouble(result);
+                textBoxPresentValue.Text = result.ToString();
 
-                textBoxPresentValue.Text = convertedResult.ToString();
-
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + convertedResult);
+                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
 
                 isOperationPerformed = true;
                 isDecimalUsed = false;
@@ -157,13 +162,13 @@ namespace cSharpIccCalculator
             {
                 char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
 
-                textBoxPresentValue.Text = textBoxPresentValue.Text.Remove(textBoxPresentValue.Text.Length - 1, 1);
+                textBoxPresentValue.Text = textBoxPresentValue.Text.Substring(0, textBoxPresentValue.Text.Length - 1);
 
-                if (lastChar == '.')
-                {
-                    isDecimalUsed = false;
-                    isZeroWholeUsed = true;
-                }
+                if (lastChar == '.') isDecimalUsed = false;
+
+                if ("+-*/%".Contains(lastChar)) isDecimalUsed = true;
+
+                isZeroWholeUsed = true;
             };
         }
 

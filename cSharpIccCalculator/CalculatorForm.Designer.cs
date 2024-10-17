@@ -449,7 +449,7 @@
             this.ucHistoryForm.Margin = new System.Windows.Forms.Padding(4);
             this.ucHistoryForm.Name = "ucHistoryForm";
             this.ucHistoryForm.Padding = new System.Windows.Forms.Padding(15);
-            this.ucHistoryForm.Size = new System.Drawing.Size(525, 503);
+            this.ucHistoryForm.Size = new System.Drawing.Size(525, 504);
             this.ucHistoryForm.TabIndex = 41;
             this.ucHistoryForm.Visible = false;
             // 
