@@ -19,9 +19,13 @@ namespace cSharpIccCalculator
         static bool isDecimalUsed = false;
         static bool isZeroWholeUsed = false;
         static bool isOperatorUsed = false;
+
+        private CalculatorClass calculatorClass;
+
         public CalculatorForm()
         {
             InitializeComponent();
+            calculatorClass = new CalculatorClass();
         }
 
         // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
@@ -29,55 +33,9 @@ namespace cSharpIccCalculator
         {
             Button button = (Button)sender;
 
-            if (textBoxPresentValue.Text == "Error") return;
+            textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(button.Text, textBoxPresentValue.Text);
 
-            if (button.Text == "0")
-            {
-                if (isZeroWholeUsed) return;    // avoid appending whole 0
-
-                // enable using whole 0 again after an operator
-                if (!isDecimalUsed || (!isDecimalUsed && !isOperatorUsed))  
-                {
-                    textBoxPresentValue.Text += "0";
-                    isZeroWholeUsed = true;
-                    return;
-                }
-                
-            }
-
-            if (button.Text == ".")
-            {
-                if (isDecimalUsed) return;  // avoid appending multiple decimal points
-
-                // if textbox is empty or contains only ., . = 0. (if no other entry)
-                if (textBoxPresentValue.Text.Length == 0 || textBoxPresentValue.Text == ".") 
-                {
-                    textBoxPresentValue.Text = "0.";
-                    isDecimalUsed = true; 
-                    return;
-                }
-
-                // if the last char is any of the operator, . = 0. (if no other entry)
-                if (textBoxPresentValue.Text.Length > 0)    
-                {
-                    char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-
-                    if ("+-*/%".Contains(lastChar))
-                    {
-                        textBoxPresentValue.Text += "0.";
-                        isDecimalUsed = true;
-                        return;
-                    };
-                }
-     
-                isDecimalUsed = true;
-                isZeroWholeUsed = false;
-            }
-
-            isOperationPerformed = false;
-            isOperatorUsed = false;
-
-            textBoxPresentValue.Text += button.Text;
+            calculatorClass.PresentValue = textBoxPresentValue.Text;
         }
 
         // /, *, -, +, %
@@ -85,91 +43,35 @@ namespace cSharpIccCalculator
         {
             Button button = (Button)sender;
 
-            if (textBoxPresentValue.Text == "Error") return;
+            textBoxPresentValue.Text = calculatorClass.HandleOperator(button.Text, textBoxPresentValue.Text);
 
-            // avoid appending multiple operators and enable overwrite
-            if (textBoxPresentValue.Text.Length > 0)
-            {
-                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-
-                if ("+-*/%".Contains(lastChar)) textBoxPresentValue.Text = textBoxPresentValue.Text.Substring(0, textBoxPresentValue.Text.Length - 1);
-            }
-
-            isOperationPerformed = false;
-            isDecimalUsed = false;
-            isZeroWholeUsed = false;
-            isOperatorUsed = true;
-
-            textBoxPresentValue.Text += button.Text;
-
-            // remove any operator (first char) after clicking -
-            if (textBoxPresentValue.Text.Length <= 1 && button.Text != "-") textBoxPresentValue.Text = "";
+            calculatorClass.PresentValue = textBoxPresentValue.Text;
         }
 
         private void buttonEqual_Click(object sender, EventArgs e)
         {
-            try
-            {
-                if (isOperationPerformed == true) return;           // avoid passing value from current to previous textBox after an operation
+            // avoid passing value from current to previous textBox after an operation
+            if (textBoxPresentValue.Text == "Error" || textBoxPresentValue.Text == "Not Divisible by Zero" || textBoxPresentValue.Text == "Overflow") return; 
 
-                if (textBoxPresentValue.Text == "Error") return;    // avoid passing value from current to previous textBox after an operation with an Error
+            textBoxPreviousValue.Text = textBoxPresentValue.Text;
 
-                textBoxPreviousValue.Text = textBoxPresentValue.Text;
-                
-                if (textBoxPresentValue.Text.Contains("/0")) throw new DivideByZeroException(); // checks if the expression is divided by 0
+            string result = calculatorClass.CalculateResult(textBoxPresentValue.Text);
 
-                var result = new DataTable().Compute(textBoxPresentValue.Text, null); // evaluate mathematical expression
+            textBoxPresentValue.Text = result;
 
-                textBoxPresentValue.Text = result.ToString();
-
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
-
-                isOperationPerformed = true;
-                isDecimalUsed = false;
-                isZeroWholeUsed = false;
-                isOperatorUsed = false;
-            }
-            catch (DivideByZeroException)
-            {
-                textBoxPresentValue.Text = "Error";
-
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = Error");
-            }
-            catch (Exception)
-            {
-                textBoxPresentValue.Text = "Error";
-
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = Error");
-            }
+            ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
         {
-            textBoxPreviousValue.Text = "";
-            textBoxPresentValue.Text = "";
-            result = 0;
-            operation = "";
-            isOperationPerformed = false;
-            isDecimalUsed = false;
-            isOperatorUsed = false;
-            isZeroWholeUsed = false;
+            calculatorClass.Clear();
+            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+            textBoxPresentValue.Text = calculatorClass.PresentValue;
         }
         private void buttonClearRecentEntry_Click(object sender, EventArgs e)
         {
-            if (textBoxPresentValue.Text == "Error") textBoxPresentValue.Text = "";
-
-            if (textBoxPresentValue.Text.Length > 0)
-            {
-                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-
-                textBoxPresentValue.Text = textBoxPresentValue.Text.Substring(0, textBoxPresentValue.Text.Length - 1);
-
-                if (lastChar == '.') isDecimalUsed = false;
-
-                if ("+-*/%".Contains(lastChar)) isDecimalUsed = true;
-
-                isZeroWholeUsed = true;
-            };
+            calculatorClass.ClearRecentEntry();
+            textBoxPresentValue.Text = calculatorClass.PresentValue;
         }
 
         private void buttonCalculator_Click(object sender, EventArgs e)

@@ -56,11 +56,11 @@
             // 
             // buttonClear
             // 
-            this.buttonClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.buttonClear.BackColor = System.Drawing.Color.Firebrick;
             this.buttonClear.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClear.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.buttonClear.ForeColor = System.Drawing.Color.IndianRed;
+            this.buttonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.buttonClear.Location = new System.Drawing.Point(18, 278);
             this.buttonClear.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClear.Name = "buttonClear";
@@ -124,18 +124,18 @@
             // buttonClearRecentEntry
             // 
             this.buttonClearRecentEntry.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.buttonClearRecentEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.buttonClearRecentEntry.BackColor = System.Drawing.Color.Firebrick;
             this.buttonClearRecentEntry.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonClearRecentEntry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonClearRecentEntry.Font = new System.Drawing.Font("Gadugi", 15F);
-            this.buttonClearRecentEntry.ForeColor = System.Drawing.Color.IndianRed;
+            this.buttonClearRecentEntry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.buttonClearRecentEntry.Location = new System.Drawing.Point(151, 278);
             this.buttonClearRecentEntry.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClearRecentEntry.Name = "buttonClearRecentEntry";
             this.buttonClearRecentEntry.Size = new System.Drawing.Size(125, 96);
             this.buttonClearRecentEntry.TabIndex = 20;
             this.buttonClearRecentEntry.Text = "CE";
-            this.buttonClearRecentEntry.UseVisualStyleBackColor = true;
+            this.buttonClearRecentEntry.UseVisualStyleBackColor = false;
             this.buttonClearRecentEntry.Click += new System.EventHandler(this.buttonClearRecentEntry_Click);
             // 
             // buttonModulus
@@ -359,11 +359,11 @@
             // buttonEqual
             // 
             this.buttonEqual.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonEqual.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(50)))), ((int)(((byte)(50)))), ((int)(((byte)(50)))));
+            this.buttonEqual.BackColor = System.Drawing.Color.Green;
             this.buttonEqual.FlatAppearance.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.buttonEqual.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.buttonEqual.Font = new System.Drawing.Font("Gadugi", 15F);
-            this.buttonEqual.ForeColor = System.Drawing.Color.LimeGreen;
+            this.buttonEqual.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.buttonEqual.Location = new System.Drawing.Point(418, 686);
             this.buttonEqual.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonEqual.Name = "buttonEqual";
