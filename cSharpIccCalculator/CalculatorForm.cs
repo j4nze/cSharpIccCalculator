@@ -13,28 +13,21 @@ namespace cSharpIccCalculator
 {
     public partial class CalculatorForm : Form
     {
-        static double result = 0;
-        static string operation = "";
-        static bool isOperationPerformed = false;
-        static bool isDecimalUsed = false;
-        static bool isZeroWholeUsed = false;
-        static bool isOperatorUsed = false;
-
         private CalculatorClass calculatorClass;
 
         public CalculatorForm()
         {
             InitializeComponent();
             calculatorClass = new CalculatorClass();
+            this.KeyPreview = true;
+            this.KeyDown += CalculatorForm_KeyDown;
         }
 
         // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
         private void numericAndDecimal_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-
-            textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(button.Text, textBoxPresentValue.Text);
-
+            textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(button.Text);
             calculatorClass.PresentValue = textBoxPresentValue.Text;
         }
 
@@ -42,23 +35,14 @@ namespace cSharpIccCalculator
         private void operation_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-
-            textBoxPresentValue.Text = calculatorClass.HandleOperator(button.Text, textBoxPresentValue.Text);
-
-            calculatorClass.PresentValue = textBoxPresentValue.Text;
+            textBoxPresentValue.Text = calculatorClass.HandleOperator(button.Text);
         }
 
         private void buttonEqual_Click(object sender, EventArgs e)
         {
-            // avoid passing value from current to previous textBox after an operation
-            if (textBoxPresentValue.Text == "Error" || textBoxPresentValue.Text == "Not Divisible by Zero" || textBoxPresentValue.Text == "Overflow") return; 
-
-            textBoxPreviousValue.Text = textBoxPresentValue.Text;
-
-            string result = calculatorClass.CalculateResult(textBoxPresentValue.Text);
-
+            string result = calculatorClass.CalculateResult();
+            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
             textBoxPresentValue.Text = result;
-
             ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
         }
 
@@ -86,6 +70,71 @@ namespace cSharpIccCalculator
             buttonCalculator.Visible = true;
             buttonHistory.Visible = false;
             ucHistoryForm.Visible = true;
+        }
+
+        private void CalculatorForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Ignore control characters (e.g., Enter, Backspace)
+            if (char.IsControl(e.KeyChar)) return;
+
+            // enable numeric and decimal keys
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
+            {
+                textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(e.KeyChar.ToString());
+                e.Handled = true;
+            }
+
+            // enable operators (numeric pads with/ without shift key)
+            if ("+-*/%".Contains(e.KeyChar))
+            {
+                textBoxPresentValue.Text = calculatorClass.HandleOperator(e.KeyChar.ToString());
+                e.Handled = true;
+            }
+
+            // enable enter key as equals - no func
+            if (e.KeyChar == (char)Keys.Enter)
+            {
+                textBoxPresentValue.Text = calculatorClass.CalculateResult();
+                e.Handled = true;
+            }
+
+            // enable escape key as clear - no func
+            if (e.KeyChar == (char)Keys.Escape)
+            {
+                calculatorClass.Clear();
+                textBoxPresentValue.Text = "";
+                e.Handled = true;
+            }
+        }
+
+        private void CalculatorForm_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Back)
+            {
+                calculatorClass.ClearRecentEntry();
+                textBoxPresentValue.Text = calculatorClass.PresentValue;
+                e.Handled = true;
+                return;
+            }
+
+            if (e.KeyCode == Keys.Escape)
+            {
+                calculatorClass.Clear();
+                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                textBoxPresentValue.Text = calculatorClass.PresentValue;
+                e.Handled = true; 
+                return;
+            }
+
+            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            {
+                string result = calculatorClass.CalculateResult();
+                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                textBoxPresentValue.Text = result;
+                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+                e.Handled = true;
+                return;
+            }
         }
     }
 }

@@ -94,6 +94,7 @@
             this.textBoxPreviousValue.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(32)))), ((int)(((byte)(32)))), ((int)(((byte)(32)))));
             this.textBoxPreviousValue.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.textBoxPreviousValue.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.textBoxPreviousValue.Enabled = false;
             this.textBoxPreviousValue.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.textBoxPreviousValue.ForeColor = System.Drawing.Color.DarkGray;
             this.textBoxPreviousValue.Location = new System.Drawing.Point(17, 65);
@@ -495,6 +496,8 @@
             this.Padding = new System.Windows.Forms.Padding(14, 15, 14, 15);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "C# Winform Calculator";
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CalculatorForm_KeyDown);
+            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.CalculatorForm_KeyPress);
             this.ResumeLayout(false);
             this.PerformLayout();
 
