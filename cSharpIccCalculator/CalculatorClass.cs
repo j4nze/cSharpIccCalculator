@@ -2,6 +2,7 @@
 using System.Data;
 using System.Globalization;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace cSharpIccCalculator
 {
@@ -9,67 +10,68 @@ namespace cSharpIccCalculator
     {
         private static double result = 0;
         private static string operation = "";
+        private static bool isZeroLeading = true;
+        private static bool isDecimalInEntryUsed = false;
+        private static bool isOperatorInEntryUsed = false;
         private static bool isOperationPerformed = false;
-        private static bool isDecimalUsed = false;
-        private static bool isZeroWholeUsed = false;
-        private static bool isOperatorUsed = false;
+        private static bool passData = true;
 
-        public string PresentValue { get; set; }
+        public string PresentValue { get; set; } = "0";
         public string PreviousValue { get; set; }
 
         public string HandleNumberAndDecimal(string input)
         {
             try
             {
-                if (PresentValue == "Number/ Decimal Error" 
-                    || PresentValue == "Operator Error" 
-                    || PresentValue == "Calculation Error" 
+                if (PresentValue == "Calculation Error" 
                     || PresentValue == "Not Divisible by Zero" 
                     || PresentValue == "Overflow") return PresentValue;
 
                 if (input == "0")
                 {
-                    if (isZeroWholeUsed) return PresentValue; // avoid appending whole 0
-
-                    // enable using whole 0 again before/after an operator
-                    if (!isDecimalUsed || (!isDecimalUsed && !isOperatorUsed))
+                    if (isOperatorInEntryUsed)
                     {
-                        PresentValue += "0";
-                        isZeroWholeUsed = true;
-                        return PresentValue;
+                        if (isZeroLeading)
+                        {
+                            if (!PresentValue.EndsWith("0")) PresentValue += "0";
+
+                            isZeroLeading = true;       
+                        } 
+                        else
+                        {
+                            PresentValue += "0";
+                            isZeroLeading = false;
+                        }
+                        isOperatorInEntryUsed = true;
                     }
+                    else
+                    {
+                        if (isZeroLeading) isZeroLeading = true;
+                        else
+                        {
+                            PresentValue += "0";
+                            isZeroLeading = false;
+                        }
+                        isOperatorInEntryUsed = false;
+                    }
+
+                    isDecimalInEntryUsed = false;
+                    isOperationPerformed = false;
+
+                    return PresentValue;
                 }
+                else isZeroLeading = false;
 
                 if (input == ".")
                 {
-                    if (isDecimalUsed) return PresentValue; // avoid appending multiple decimal points
+                    string[] parts = PresentValue.Split(new char[] { '+', '-', '*', '/', '%' });
+                    string lastSegment = parts.Last();
 
-                    // if textbox is empty or contains only ., . = 0. (if no other entry)
-                    if (PresentValue.Length == 0 || PresentValue == ".")
-                    {
-                        PresentValue = "0.";
-                        isDecimalUsed = true;
-                        return PresentValue;
-                    }
+                    if (string.IsNullOrEmpty(lastSegment) || "+-*/%".Contains(lastSegment)) PresentValue += "0.";
+                    else if (!lastSegment.Contains(".")) PresentValue += ".";
 
-                    // if the last char is any of the operator, . = 0. (if no other entry)
-                    if (PresentValue.Length > 0)
-                    {
-                        char lastChar = PresentValue[PresentValue.Length - 1];
-                        if ("+-*/%".Contains(lastChar))
-                        {
-                            PresentValue += "0.";
-                            isDecimalUsed = true;
-                            return PresentValue;
-                        };
-                    }
-
-                    isDecimalUsed = true;
-                    isZeroWholeUsed = false;
+                    return PresentValue;
                 }
-
-                isOperationPerformed = false;
-                isOperatorUsed = false;
 
                 PresentValue += input;
 
@@ -77,7 +79,7 @@ namespace cSharpIccCalculator
             }
             catch (Exception)
             {
-                return PresentValue = "Number/ Decimal Error";
+                return PresentValue;
             }
         }
 
@@ -85,37 +87,29 @@ namespace cSharpIccCalculator
         {
             try
             {
-                if (PresentValue == "Number/ Decimal Error" 
-                    || PresentValue == "Operator Error" 
-                    || PresentValue == "Calculation Error" 
+                if (PresentValue == "Calculation Error" 
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PresentValue;
-
-                if (string.IsNullOrEmpty(PresentValue)) PresentValue = "";
 
                 // avoid appending multiple operators and enable overwrite
                 if (PresentValue.Length > 0)
                 {
                     char lastChar = PresentValue[PresentValue.Length - 1];
-
                     if ("+-*/%".Contains(lastChar)) PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
                 }
 
+                isZeroLeading = true;
+                isDecimalInEntryUsed = false;
+                isOperatorInEntryUsed = true;
                 isOperationPerformed = false;
-                isDecimalUsed = false;
-                isZeroWholeUsed = false;
-                isOperatorUsed = true;
 
                 PresentValue += input;
-
-                // remove any operator (first char) after clicking -
-                if (PresentValue.Length <= 1 && input != "-") PresentValue = "";
 
                 return PresentValue;
             }
             catch (Exception)
             {
-                return PresentValue = "Operator Error";
+                return PresentValue;
             }
         }
 
@@ -123,12 +117,7 @@ namespace cSharpIccCalculator
         {
             try
             {
-                if (string.IsNullOrEmpty(PresentValue)) return PresentValue;
-
-                // avoid passing value from current to previous textBox after an operation
-                if (PresentValue == "Number/ Decimal Error" 
-                    || PresentValue == "Operator Error" 
-                    || PresentValue == "Calculation Error" 
+                if (PresentValue == "Calculation Error" 
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PresentValue;
 
@@ -136,9 +125,10 @@ namespace cSharpIccCalculator
                 if (PresentValue.Length > 0)
                 {
                     char lastChar = PresentValue[PresentValue.Length - 1];
-
                     if ("+-*/%".Contains(lastChar)) return PresentValue;
                 }
+
+                if (!isOperatorInEntryUsed) return PresentValue;
 
                 PreviousValue = PresentValue;
 
@@ -148,6 +138,11 @@ namespace cSharpIccCalculator
 
                 PresentValue = result.ToString();
 
+                isZeroLeading = true;
+                isDecimalInEntryUsed = false;
+                isOperatorInEntryUsed = false;
+                isOperationPerformed = true;
+                
                 return PresentValue;
             }
             catch (DivideByZeroException)
@@ -166,41 +161,52 @@ namespace cSharpIccCalculator
 
         public void Clear()
         {
-            if (string.IsNullOrEmpty(PresentValue)) PresentValue = "";
-
-            PresentValue = "";
+            PresentValue = "0";
             PreviousValue = "";
             result = 0;
             operation = "";
+            isZeroLeading = true;
+            isDecimalInEntryUsed = false;
+            isOperatorInEntryUsed = false;
             isOperationPerformed = false;
-            isDecimalUsed = false;
-            isOperatorUsed = false;
-            isZeroWholeUsed = false;
         }
 
         public void ClearRecentEntry()
         {
-            if (string.IsNullOrEmpty(PresentValue)) PresentValue = "";
-
-            if (PresentValue == "Number/ Decimal Error"
-                || PresentValue == "Operator Error"
-                || PresentValue == "Calculation Error"
+            if (PresentValue == "Calculation Error"
                 || PresentValue == "Not Divisible by Zero"
-                || PresentValue == "Overflow") PresentValue = "";
-            else
+                || PresentValue == "Overflow")
             {
-                if (PresentValue.Length > 0)
+                PresentValue = "0";
+                result = 0;
+                operation = "";
+                isZeroLeading = true;
+                isDecimalInEntryUsed = false;
+                isOperatorInEntryUsed = false;
+                isOperationPerformed = false;
+            }
+
+            if (PresentValue.Length > 0)
+            {
+                char lastChar = PresentValue[PresentValue.Length - 1];
+                PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
+
+                if (lastChar == '.')
                 {
-                    char lastChar = PresentValue[PresentValue.Length - 1];
-                    PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
-
-                    if (lastChar == '.') isDecimalUsed = false;
-
-                    if ("+-*/%".Contains(lastChar)) isDecimalUsed = true;
-
-                    isZeroWholeUsed = true;
+                    isDecimalInEntryUsed = false;
                 }
-            } 
+
+                if (PresentValue.Length == 0 || PresentValue == "0")
+                {
+                    PresentValue = "0";
+                    result = 0;
+                    operation = "";
+                    isZeroLeading = true; 
+                    isDecimalInEntryUsed = false;
+                    isOperatorInEntryUsed = false;
+                    isOperationPerformed = false;
+                }
+            }
         }
     }
 }

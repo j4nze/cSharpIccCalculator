@@ -85,6 +85,7 @@
             this.textBoxPresentValue.ReadOnly = true;
             this.textBoxPresentValue.Size = new System.Drawing.Size(525, 67);
             this.textBoxPresentValue.TabIndex = 0;
+            this.textBoxPresentValue.Text = "0";
             this.textBoxPresentValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // textBoxPreviousValue

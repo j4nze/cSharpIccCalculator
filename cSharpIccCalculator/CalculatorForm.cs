@@ -14,13 +14,14 @@ namespace cSharpIccCalculator
     public partial class CalculatorForm : Form
     {
         private CalculatorClass calculatorClass;
-
+        private static bool isCalculationSuccess;
         public CalculatorForm()
         {
             InitializeComponent();
             calculatorClass = new CalculatorClass();
             this.KeyPreview = true;
             this.KeyDown += CalculatorForm_KeyDown;
+            isCalculationSuccess = false;
         }
 
         // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
@@ -40,10 +41,34 @@ namespace cSharpIccCalculator
 
         private void buttonEqual_Click(object sender, EventArgs e)
         {
+            if (textBoxPresentValue.Text.Length > 0)
+            {
+                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
+                if ("+-*/%".Contains(lastChar)) return;                  
+            }
+
+            if (textBoxPresentValue.Text == "0") return;
+
             string result = calculatorClass.CalculateResult();
-            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-            textBoxPresentValue.Text = result;
-            ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+
+            if (result == "Calculation Error" || result == "Not Divisible by Zero" || result == "Overflow")
+            {
+                if (!isCalculationSuccess || textBoxPresentValue.Text != result)
+                {
+                    textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                    textBoxPresentValue.Text = result;
+                    ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+                    isCalculationSuccess = true;
+                }
+                return;
+            }
+            else
+            {
+                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                textBoxPresentValue.Text = result;
+                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+                isCalculationSuccess = false;
+            }
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
