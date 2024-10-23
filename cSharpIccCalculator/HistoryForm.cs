@@ -16,5 +16,25 @@ namespace cSharpIccCalculator
         {
             InitializeComponent();
         }
+
+        private void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void customizedBorRadPanel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void customizedBorRadPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

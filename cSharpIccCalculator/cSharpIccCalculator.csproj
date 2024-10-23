@@ -53,6 +53,12 @@
     <Compile Include="CalculatorForm.Designer.cs">
       <DependentUpon>CalculatorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomizedBorRadButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="CustomizedBorRadPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="HistoryClass.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>UserControl</SubType>

@@ -8,72 +8,60 @@ namespace cSharpIccCalculator
 {
     class CalculatorClass
     {
-        private static double result = 0;
-        private static string operation = "";
+        public static string Expression = "";
+        public static string Result = "";
         private static bool isZeroLeading = true;
         private static bool isDecimalInEntryUsed = false;
         private static bool isOperatorInEntryUsed = false;
         private static bool isOperationPerformed = false;
-        private static bool passData = true;
+
 
         public string PresentValue { get; set; } = "0";
-        public string PreviousValue { get; set; }
+        public string PreviousValue { get; set; } = "";
 
         public string HandleNumberAndDecimal(string input)
         {
             try
             {
-                if (PresentValue == "Calculation Error" 
-                    || PresentValue == "Not Divisible by Zero" 
+                if (PresentValue == "Calculation Error"
+                    || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PresentValue;
+
+                if (isOperatorInEntryUsed)
+                {
+                    PresentValue = "";
+                    isZeroLeading = true;
+                    isDecimalInEntryUsed = false;
+                    isOperatorInEntryUsed = false;
+                    isOperationPerformed = false;
+                } 
+                if (isOperationPerformed)
+                {
+                    PresentValue = "";
+                    isZeroLeading = true;
+                    isDecimalInEntryUsed = false;
+                    isOperatorInEntryUsed = false;
+                    isOperationPerformed = false;
+                }
 
                 if (input == "0")
                 {
-                    if (isOperatorInEntryUsed)
-                    {
-                        if (isZeroLeading)
-                        {
-                            if (!PresentValue.EndsWith("0")) PresentValue += "0";
-
-                            isZeroLeading = true;       
-                        } 
-                        else
-                        {
-                            PresentValue += "0";
-                            isZeroLeading = false;
-                        }
-                        isOperatorInEntryUsed = true;
-                    }
-                    else
-                    {
-                        if (isZeroLeading) isZeroLeading = true;
-                        else
-                        {
-                            PresentValue += "0";
-                            isZeroLeading = false;
-                        }
-                        isOperatorInEntryUsed = false;
-                    }
-
-                    isDecimalInEntryUsed = false;
-                    isOperationPerformed = false;
-
-                    return PresentValue;
+                    if (PresentValue == "0") return PresentValue;
+                    else PresentValue += "0";
                 }
-                else isZeroLeading = false;
-
-                if (input == ".")
+                else if (input == ".")
                 {
-                    string[] parts = PresentValue.Split(new char[] { '+', '-', '*', '/', '%' });
-                    string lastSegment = parts.Last();
-
-                    if (string.IsNullOrEmpty(lastSegment) || "+-*/%".Contains(lastSegment)) PresentValue += "0.";
-                    else if (!lastSegment.Contains(".")) PresentValue += ".";
-
-                    return PresentValue;
+                    if (!isDecimalInEntryUsed)
+                    {
+                        PresentValue += ".";
+                        isDecimalInEntryUsed = true;
+                    }
                 }
-
-                PresentValue += input;
+                else
+                {
+                    if (PresentValue == "0") PresentValue = input;
+                    else PresentValue += input;
+                }
 
                 return PresentValue;
             }
@@ -87,31 +75,28 @@ namespace cSharpIccCalculator
         {
             try
             {
-                if (PresentValue == "Calculation Error" 
+                if (PresentValue == "Calculation Error"
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PresentValue;
 
-                // avoid appending multiple operators and enable overwrite
-                if (PresentValue.Length > 0)
-                {
-                    char lastChar = PresentValue[PresentValue.Length - 1];
-                    if ("+-*/%".Contains(lastChar)) PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
-                }
+                if (Result.Length > 0) Expression += " " + Result;
+                else Expression += " " + PresentValue;
+                Expression += " " + input;
+                PreviousValue = Expression;
 
                 isZeroLeading = true;
                 isDecimalInEntryUsed = false;
                 isOperatorInEntryUsed = true;
                 isOperationPerformed = false;
 
-                PresentValue += input;
-
-                return PresentValue;
+                return PreviousValue;
             }
             catch (Exception)
             {
-                return PresentValue;
+                return PreviousValue;
             }
         }
+
 
         public string CalculateResult()
         {
@@ -121,22 +106,14 @@ namespace cSharpIccCalculator
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PresentValue;
 
-                // disable calculation if the last char is an operator
-                if (PresentValue.Length > 0)
-                {
-                    char lastChar = PresentValue[PresentValue.Length - 1];
-                    if ("+-*/%".Contains(lastChar)) return PresentValue;
-                }
+                Expression += " " + PresentValue;
 
-                if (!isOperatorInEntryUsed) return PresentValue;
+                if (Expression.Contains("/0")) throw new DivideByZeroException(); // checks if the expression is divided by 0
 
-                PreviousValue = PresentValue;
-
-                if (PresentValue.Contains("/0")) throw new DivideByZeroException(); // checks if the expression is divided by 0
-
-                var result = new DataTable().Compute(PresentValue, null);
+                var result = new DataTable().Compute(Expression, null);
 
                 PresentValue = result.ToString();
+                Result = result.ToString();
 
                 isZeroLeading = true;
                 isDecimalInEntryUsed = false;
@@ -163,8 +140,8 @@ namespace cSharpIccCalculator
         {
             PresentValue = "0";
             PreviousValue = "";
-            result = 0;
-            operation = "";
+            Expression = "";
+            Result = "";
             isZeroLeading = true;
             isDecimalInEntryUsed = false;
             isOperatorInEntryUsed = false;
@@ -173,19 +150,6 @@ namespace cSharpIccCalculator
 
         public void ClearRecentEntry()
         {
-            if (PresentValue == "Calculation Error"
-                || PresentValue == "Not Divisible by Zero"
-                || PresentValue == "Overflow")
-            {
-                PresentValue = "0";
-                result = 0;
-                operation = "";
-                isZeroLeading = true;
-                isDecimalInEntryUsed = false;
-                isOperatorInEntryUsed = false;
-                isOperationPerformed = false;
-            }
-
             if (PresentValue.Length > 0)
             {
                 char lastChar = PresentValue[PresentValue.Length - 1];
@@ -199,9 +163,8 @@ namespace cSharpIccCalculator
                 if (PresentValue.Length == 0 || PresentValue == "0")
                 {
                     PresentValue = "0";
-                    result = 0;
-                    operation = "";
-                    isZeroLeading = true; 
+                    Expression = "";
+                    isZeroLeading = true;
                     isDecimalInEntryUsed = false;
                     isOperatorInEntryUsed = false;
                     isOperationPerformed = false;

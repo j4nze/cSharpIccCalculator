@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -15,9 +16,11 @@ namespace cSharpIccCalculator
     {
         private CalculatorClass calculatorClass;
         private static bool isCalculationSuccess;
+
         public CalculatorForm()
         {
             InitializeComponent();
+
             calculatorClass = new CalculatorClass();
             this.KeyPreview = true;
             this.KeyDown += CalculatorForm_KeyDown;
@@ -36,39 +39,17 @@ namespace cSharpIccCalculator
         private void operation_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
-            textBoxPresentValue.Text = calculatorClass.HandleOperator(button.Text);
+            textBoxPreviousValue.Text = calculatorClass.HandleOperator(button.Text);
         }
 
         private void buttonEqual_Click(object sender, EventArgs e)
         {
-            if (textBoxPresentValue.Text.Length > 0)
-            {
-                char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-                if ("+-*/%".Contains(lastChar)) return;                  
-            }
-
-            if (textBoxPresentValue.Text == "0") return;
 
             string result = calculatorClass.CalculateResult();
 
-            if (result == "Calculation Error" || result == "Not Divisible by Zero" || result == "Overflow")
-            {
-                if (!isCalculationSuccess || textBoxPresentValue.Text != result)
-                {
-                    textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                    textBoxPresentValue.Text = result;
-                    ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
-                    isCalculationSuccess = true;
-                }
-                return;
-            }
-            else
-            {
-                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                textBoxPresentValue.Text = result;
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
-                isCalculationSuccess = false;
-            }
+            textBoxPreviousValue.Text = (CalculatorClass.Expression + " =");
+            textBoxPresentValue.Text = result;
+            ucHistoryForm.listBoxHistory.Items.Add(CalculatorClass.Expression + " = " + result);
         }
 
         private void buttonClear_Click(object sender, EventArgs e)
@@ -153,10 +134,34 @@ namespace cSharpIccCalculator
 
             if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
             {
+                if (textBoxPresentValue.Text.Length > 0)
+                {
+                    char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
+                    if ("+-*/%".Contains(lastChar)) return;
+                }
+
+                if (textBoxPresentValue.Text == "0") return;
+
                 string result = calculatorClass.CalculateResult();
-                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                textBoxPresentValue.Text = result;
-                ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+
+                if (result == "Calculation Error" || result == "Not Divisible by Zero" || result == "Overflow")
+                {
+                    if (!isCalculationSuccess || textBoxPresentValue.Text != result)
+                    {
+                        textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                        textBoxPresentValue.Text = result;
+                        ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+                        isCalculationSuccess = true;
+                    }
+                    return;
+                }
+                else
+                {
+                    textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+                    textBoxPresentValue.Text = result;
+                    ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
+                    isCalculationSuccess = false;
+                }
                 e.Handled = true;
                 return;
             }
