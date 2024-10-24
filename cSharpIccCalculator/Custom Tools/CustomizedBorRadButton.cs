@@ -1,12 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace cSharpIccCalculator
 {
-    class CustomizedBorRadPanel : Panel
+    class CustomizedBorRadButton : Button
     {
         //Fields
         private int borderSize = 0;
@@ -14,7 +18,7 @@ namespace cSharpIccCalculator
         private Color borderColor = Color.PaleVioletRed;
 
         //Properties
-        [Category("RJ Code Advance")]
+        [Category("Custom Button")]
         public int BorderSize
         {
             get { return borderSize; }
@@ -25,7 +29,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        [Category("RJ Code Advance")]
+        [Category("Custom Button")]
         public int BorderRadius
         {
             get { return borderRadius; }
@@ -36,7 +40,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        [Category("RJ Code Advance")]
+        [Category("Custom Button")]
         public Color BorderColor
         {
             get { return borderColor; }
@@ -46,23 +50,32 @@ namespace cSharpIccCalculator
                 this.Invalidate();
             }
         }
-
-        [Category("RJ Code Advance")]
+        [Category("Custom Button")]
         public Color BackgroundColor
         {
             get { return this.BackColor; }
             set { this.BackColor = value; }
         }
 
-        //Constructor
-        public CustomizedBorRadPanel()
+        [Category("Custom Button")]
+        public Color TextColor
         {
-            this.Size = new Size(150, 40);
-            this.BackColor = Color.MediumSlateBlue;
-            this.Resize += new EventHandler(Panel_Resize);
+            get { return this.ForeColor; }
+            set { this.ForeColor = value; }
         }
 
-        private void Panel_Resize(object sender, EventArgs e)
+        //Constructor
+        public CustomizedBorRadButton()
+        {
+            this.FlatStyle = FlatStyle.Flat;
+            this.FlatAppearance.BorderSize = 0;
+            this.Size = new Size(150, 40);
+            this.BackColor = Color.MediumSlateBlue;
+            this.ForeColor = Color.White;
+            this.Resize += new EventHandler(Button_Resize);
+        }
+
+        private void Button_Resize(object sender, EventArgs e)
         {
             if (borderRadius > this.Height)
                 borderRadius = this.Height;
@@ -93,7 +106,7 @@ namespace cSharpIccCalculator
             if (borderSize > 0)
                 smoothSize = borderSize;
 
-            if (borderRadius > 2) //Rounded panel
+            if (borderRadius > 2) //Rounded button
             {
                 using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
                 using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
@@ -101,23 +114,23 @@ namespace cSharpIccCalculator
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
                     pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    //Panel surface
+                    //Button surface
                     this.Region = new Region(pathSurface);
                     //Draw surface border for HD result
                     pevent.Graphics.DrawPath(penSurface, pathSurface);
 
-                    //Panel border                    
+                    //Button border                    
                     if (borderSize >= 1)
                         //Draw control border
                         pevent.Graphics.DrawPath(penBorder, pathBorder);
                 }
             }
-            else //Normal panel
+            else //Normal button
             {
                 pevent.Graphics.SmoothingMode = SmoothingMode.None;
-                //Panel surface
+                //Button surface
                 this.Region = new Region(rectSurface);
-                //Panel border
+                //Button border
                 if (borderSize >= 1)
                 {
                     using (Pen penBorder = new Pen(borderColor, borderSize))

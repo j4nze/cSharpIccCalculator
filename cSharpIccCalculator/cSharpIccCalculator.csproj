@@ -53,10 +53,13 @@
     <Compile Include="CalculatorForm.Designer.cs">
       <DependentUpon>CalculatorForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomizedBorRadButton.cs">
+    <Compile Include="Custom Tools\CustomizedBorRadButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="CustomizedBorRadPanel.cs">
+    <Compile Include="Custom Tools\CustomizedBorRadPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Custom Tools\CustomizedNoCaretTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="HistoryClass.cs" />
@@ -96,6 +99,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\calculatorFormIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\calculatorButtonIcon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\historyButtonIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

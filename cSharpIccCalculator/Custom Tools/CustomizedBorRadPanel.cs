@@ -1,16 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Drawing;
 using System.Drawing.Drawing2D;
+using System.Windows.Forms;
 using System.ComponentModel;
 
 namespace cSharpIccCalculator
 {
-    class CustomizedBorRadButton : Button
+    class CustomizedBorRadPanel : Panel
     {
         //Fields
         private int borderSize = 0;
@@ -18,7 +14,7 @@ namespace cSharpIccCalculator
         private Color borderColor = Color.PaleVioletRed;
 
         //Properties
-        [Category("RJ Code Advance")]
+        [Category("Custom Panel")]
         public int BorderSize
         {
             get { return borderSize; }
@@ -29,7 +25,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        [Category("RJ Code Advance")]
+        [Category("Custom Panel")]
         public int BorderRadius
         {
             get { return borderRadius; }
@@ -40,7 +36,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        [Category("RJ Code Advance")]
+        [Category("Custom Panel")]
         public Color BorderColor
         {
             get { return borderColor; }
@@ -50,32 +46,23 @@ namespace cSharpIccCalculator
                 this.Invalidate();
             }
         }
-        [Category("RJ Code Advance")]
+
+        [Category("Custom Panel")]
         public Color BackgroundColor
         {
             get { return this.BackColor; }
             set { this.BackColor = value; }
         }
 
-        [Category("RJ Code Advance")]
-        public Color TextColor
-        {
-            get { return this.ForeColor; }
-            set { this.ForeColor = value; }
-        }
-
         //Constructor
-        public CustomizedBorRadButton()
+        public CustomizedBorRadPanel()
         {
-            this.FlatStyle = FlatStyle.Flat;
-            this.FlatAppearance.BorderSize = 0;
             this.Size = new Size(150, 40);
             this.BackColor = Color.MediumSlateBlue;
-            this.ForeColor = Color.White;
-            this.Resize += new EventHandler(Button_Resize);
+            this.Resize += new EventHandler(Panel_Resize);
         }
 
-        private void Button_Resize(object sender, EventArgs e)
+        private void Panel_Resize(object sender, EventArgs e)
         {
             if (borderRadius > this.Height)
                 borderRadius = this.Height;
@@ -106,7 +93,7 @@ namespace cSharpIccCalculator
             if (borderSize > 0)
                 smoothSize = borderSize;
 
-            if (borderRadius > 2) //Rounded button
+            if (borderRadius > 2) //Rounded panel
             {
                 using (GraphicsPath pathSurface = GetFigurePath(rectSurface, borderRadius))
                 using (GraphicsPath pathBorder = GetFigurePath(rectBorder, borderRadius - borderSize))
@@ -114,23 +101,23 @@ namespace cSharpIccCalculator
                 using (Pen penBorder = new Pen(borderColor, borderSize))
                 {
                     pevent.Graphics.SmoothingMode = SmoothingMode.AntiAlias;
-                    //Button surface
+                    //Panel surface
                     this.Region = new Region(pathSurface);
                     //Draw surface border for HD result
                     pevent.Graphics.DrawPath(penSurface, pathSurface);
 
-                    //Button border                    
+                    //Panel border                    
                     if (borderSize >= 1)
                         //Draw control border
                         pevent.Graphics.DrawPath(penBorder, pathBorder);
                 }
             }
-            else //Normal button
+            else //Normal panel
             {
                 pevent.Graphics.SmoothingMode = SmoothingMode.None;
-                //Button surface
+                //Panel surface
                 this.Region = new Region(rectSurface);
-                //Button border
+                //Panel border
                 if (borderSize >= 1)
                 {
                     using (Pen penBorder = new Pen(borderColor, borderSize))
@@ -145,12 +132,13 @@ namespace cSharpIccCalculator
         protected override void OnHandleCreated(EventArgs e)
         {
             base.OnHandleCreated(e);
-            this.Parent.BackColorChanged += new EventHandler(Container_BackColorChanged);
+            if (this.Parent != null) this.Parent.BackColorChanged += new EventHandler(Container_BackColorChanged);
         }
 
         private void Container_BackColorChanged(object sender, EventArgs e)
         {
-            this.Invalidate();
+            if (this.Parent != null) this.Invalidate();
+
         }
     }
 }

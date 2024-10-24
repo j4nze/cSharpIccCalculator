@@ -15,156 +15,159 @@ namespace cSharpIccCalculator
     public partial class CalculatorForm : Form
     {
         private CalculatorClass calculatorClass;
-        private static bool isCalculationSuccess;
 
         public CalculatorForm()
         {
             InitializeComponent();
-
             calculatorClass = new CalculatorClass();
             this.KeyPreview = true;
+            this.KeyPress += CalculatorForm_KeyPress;
             this.KeyDown += CalculatorForm_KeyDown;
-            isCalculationSuccess = false;
+            customizedNoCaretTextBoxPresentValue.SelectionStart = customizedNoCaretTextBoxPresentValue.Text.Length;
+            customizedNoCaretTextBoxPresentValue.SelectionLength = customizedNoCaretTextBoxPresentValue.Text.Length;
+           
         }
 
         // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
-        private void numericAndDecimal_click(object sender, EventArgs e)
+        private void NumericAndDecimalHandler(string input)
         {
-            Button button = (Button)sender;
-            textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(button.Text);
-            calculatorClass.PresentValue = textBoxPresentValue.Text;
+            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(input);
+            calculatorClass.PresentValue = customizedNoCaretTextBoxPresentValue.Text;
+            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
         }
-
         // /, *, -, +, %
-        private void operation_click(object sender, EventArgs e)
+        private void OperatorHandler(string input)
         {
-            Button button = (Button)sender;
-            textBoxPreviousValue.Text = calculatorClass.HandleOperator(button.Text);
+            textBoxPreviousValue.Text = calculatorClass.HandleOperator(input);
+            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
         }
-
-        private void buttonEqual_Click(object sender, EventArgs e)
+        private void CalculationHandler()
         {
+            if (calculatorClass.PresentValue == "Calculation Error" 
+                || calculatorClass.PresentValue == "Not Divisible by Zero" 
+                || calculatorClass.PresentValue == "Overflow") ClearHandler();
+            else
+            {
+                string result = calculatorClass.CalculateResult();
+                textBoxPreviousValue.Text = (CalculatorClass.Expression + " =").Trim();
+                customizedNoCaretTextBoxPresentValue.Text = result;
+                ucHistoryForm.listBoxHistory.Items.Add(CalculatorClass.Equation);
+            }
 
-            string result = calculatorClass.CalculateResult();
-
-            textBoxPreviousValue.Text = (CalculatorClass.Expression + " =");
-            textBoxPresentValue.Text = result;
-            ucHistoryForm.listBoxHistory.Items.Add(CalculatorClass.Expression + " = " + result);
         }
-
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void ClearHandler()
         {
             calculatorClass.Clear();
             textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-            textBoxPresentValue.Text = calculatorClass.PresentValue;
+            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
         }
-        private void buttonClearRecentEntry_Click(object sender, EventArgs e)
+        private void ClearRecentEntryHandler()
         {
             calculatorClass.ClearRecentEntry();
-            textBoxPresentValue.Text = calculatorClass.PresentValue;
+            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
         }
-
-        private void buttonCalculator_Click(object sender, EventArgs e)
+        private void CalculatorDisplayHandler()
         {
             buttonCalculator.Visible = false;
             buttonHistory.Visible = true;
             ucHistoryForm.Visible = false;
         }
-
-        private void buttonHistory_Click(object sender, EventArgs e)
+        private void HistoryDisplayHandler()
         {
             buttonCalculator.Visible = true;
             buttonHistory.Visible = false;
             ucHistoryForm.Visible = true;
         }
-
-        private void CalculatorForm_KeyPress(object sender, KeyPressEventArgs e)
+        
+        
+        //  ============================================== CLICK EVENT
+        private void numericAndDecimal_click(object sender, EventArgs e)
         {
-            // Ignore control characters (e.g., Enter, Backspace)
-            if (char.IsControl(e.KeyChar)) return;
-
-            // enable numeric and decimal keys
-            if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
-            {
-                textBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(e.KeyChar.ToString());
-                e.Handled = true;
-            }
-
-            // enable operators (numeric pads with/ without shift key)
-            if ("+-*/%".Contains(e.KeyChar))
-            {
-                textBoxPresentValue.Text = calculatorClass.HandleOperator(e.KeyChar.ToString());
-                e.Handled = true;
-            }
-
-            // enable enter key as equals - no func
-            if (e.KeyChar == (char)Keys.Enter)
-            {
-                textBoxPresentValue.Text = calculatorClass.CalculateResult();
-                e.Handled = true;
-            }
-
-            // enable escape key as clear - no func
-            if (e.KeyChar == (char)Keys.Escape)
-            {
-                calculatorClass.Clear();
-                textBoxPresentValue.Text = "";
-                e.Handled = true;
-            }
+            Button button = (Button)sender;
+            NumericAndDecimalHandler(button.Text);
+        }
+        private void operation_click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            OperatorHandler(button.Text);
+        }
+        private void buttonEqual_Click(object sender, EventArgs e)
+        {
+            CalculationHandler();
+        }
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            ClearHandler();
+        }
+        private void buttonClearRecentEntry_Click(object sender, EventArgs e)
+        {
+            ClearRecentEntryHandler();
+        }
+        private void buttonCalculator_Click(object sender, EventArgs e)
+        {
+            CalculatorDisplayHandler();
+        }
+        private void buttonHistory_Click(object sender, EventArgs e)
+        {
+            HistoryDisplayHandler();
         }
 
+        // ================================================ KEY EVENT
+        private void CalculatorForm_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
+            {
+                NumericAndDecimalHandler(e.KeyChar.ToString());
+            }
+            else if (e.KeyChar == '+' || e.KeyChar == '-' || e.KeyChar == '*' || e.KeyChar == '/' || e.KeyChar == '%')
+            {
+                OperatorHandler(e.KeyChar.ToString());
+            }
+            else if (e.KeyChar == '=')
+            {
+                e.Handled = true;
+                CalculationHandler();
+            }
+            else if (char.ToLower(e.KeyChar) == 'c')
+            {
+                CalculatorDisplayHandler();
+            }
+            else if (char.ToLower(e.KeyChar) == 'h')
+            {
+                HistoryDisplayHandler();
+            }
+        }
         private void CalculatorForm_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Back)
+            if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
             {
-                calculatorClass.ClearRecentEntry();
-                textBoxPresentValue.Text = calculatorClass.PresentValue;
+                ClearRecentEntryHandler();
                 e.Handled = true;
-                return;
             }
 
             if (e.KeyCode == Keys.Escape)
             {
-                calculatorClass.Clear();
-                textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                textBoxPresentValue.Text = calculatorClass.PresentValue;
-                e.Handled = true; 
-                return;
+                ClearHandler();
+                e.Handled |= true;
             }
 
-            if (e.KeyCode == Keys.Enter || e.KeyCode == Keys.Return)
+            if (e.KeyCode == Keys.Enter)
             {
-                if (textBoxPresentValue.Text.Length > 0)
-                {
-                    char lastChar = textBoxPresentValue.Text[textBoxPresentValue.Text.Length - 1];
-                    if ("+-*/%".Contains(lastChar)) return;
-                }
-
-                if (textBoxPresentValue.Text == "0") return;
-
-                string result = calculatorClass.CalculateResult();
-
-                if (result == "Calculation Error" || result == "Not Divisible by Zero" || result == "Overflow")
-                {
-                    if (!isCalculationSuccess || textBoxPresentValue.Text != result)
-                    {
-                        textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                        textBoxPresentValue.Text = result;
-                        ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
-                        isCalculationSuccess = true;
-                    }
-                    return;
-                }
-                else
-                {
-                    textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-                    textBoxPresentValue.Text = result;
-                    ucHistoryForm.listBoxHistory.Items.Add(textBoxPreviousValue.Text + " = " + result);
-                    isCalculationSuccess = false;
-                }
+                CalculationHandler();
                 e.Handled = true;
-                return;
             }
         }
+
+        private void textBoxPresentValue_TextChanged(object sender, EventArgs e)
+        {
+            customizedNoCaretTextBoxPresentValue.SelectionStart = customizedNoCaretTextBoxPresentValue.Text.Length;
+            customizedNoCaretTextBoxPresentValue.SelectionLength = customizedNoCaretTextBoxPresentValue.Text.Length;
+        }
+        //protected override void OnShown(EventArgs e)
+        //{
+        //    base.OnShown(e);
+        //    this.Focus();
+        //}
     }
 }
