@@ -7,21 +7,21 @@ using System.Windows.Forms;
 
 namespace cSharpIccCalculator
 {
-    class CalculatorClass
+    class CalculatorHandler
     {
         public static string Expression = "";
         private static string Result = "";
         public static string Equation = "";
 
         private static bool isDecimalInEntryUsed = false;
-        private static bool isArithmeticOperatorInEntryUsed = false;
+        private static bool isOperatorInEntryUsed = false;
         private static bool isArithmeticOperationPerformed = false;
-        private static bool isPercentageOperationPerformed = false;
+        private static bool isPercentageOperatorInEntry = false;
 
         public string PresentValue { get; set; } = "0";
         public string PreviousValue { get; set; } = "";
 
-        public string HandleNumberAndDecimal(string input)
+        public string NumberAndDecimal(string input)
         {
             try
             {
@@ -30,26 +30,20 @@ namespace cSharpIccCalculator
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") Clear();
 
-                if (isArithmeticOperationPerformed && Result == "0")
-                {
-                    PreviousValue = "";
-                    Expression = "";
-                    Equation = "";
-                }
-
-                if (isArithmeticOperatorInEntryUsed)
+                if (isOperatorInEntryUsed)
                 {
                     PresentValue = "";
                     isDecimalInEntryUsed = false;
-                    isArithmeticOperatorInEntryUsed = false;
+                    isOperatorInEntryUsed = false;
                     isArithmeticOperationPerformed = false;
-                    isPercentageOperationPerformed = false;
                 } 
+
                 if (isArithmeticOperationPerformed) Clear();
 
-
                 if (input == "0")
-                {
+                { 
+                    if (LimitedDecimalFormat(PresentValue)) return PresentValue;
+
                     // determine when to append zero, specifically if zero is leading
                     if (PresentValue == "0") return PresentValue;
                     else PresentValue += "0";
@@ -69,9 +63,14 @@ namespace cSharpIccCalculator
                 }
                 else
                 {
+                    if (LimitedDecimalFormat(PresentValue)) return PresentValue;
+
                     if (PresentValue == "0") PresentValue = input;  // overwrite 0 with a non zero value
                     else PresentValue += input; // append 0
                 }
+
+                PresentValue = ThousandSeparatorFormat(PresentValue);
+
                 return PresentValue;
             }
             catch (Exception)
@@ -80,7 +79,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        public string HandleOperator(string input)
+        public string Operator(string input)
         {
             try
             {
@@ -88,11 +87,14 @@ namespace cSharpIccCalculator
                 if (PresentValue == "Calculation Error"
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") return PreviousValue = Expression + " =";
+                
+
+                PresentValue = TrailingZeroDecimalFormat(Convert.ToDecimal(PresentValue)).ToString();
+                PresentValue = ThousandSeparatorFormat(PresentValue);
 
                 // flag the expression if it contains %
-                if (input == "%") isPercentageOperationPerformed = false;
-                else isPercentageOperationPerformed = true;
-
+                if (input == "%") isPercentageOperatorInEntry = true;
+                
                 if (isArithmeticOperationPerformed)
                 {
                     Expression = "";
@@ -101,21 +103,19 @@ namespace cSharpIccCalculator
                 else
                 {
                     // determine if the last character of the expression is an operator and enable ovewrite
-                    if (!string.IsNullOrEmpty(Expression) && isArithmeticOperatorInEntryUsed)
+                    if (!string.IsNullOrEmpty(Expression) && isOperatorInEntryUsed)
                     {
                         char lastChar = Expression.Last();
 
                         if ("+-*/%".Contains(lastChar)) Expression = Expression.Substring(0, Expression.Length - 2);
                     }
                     else Expression += " " + PresentValue;
-
-                    isArithmeticOperationPerformed = false;
                 }
 
                 Expression += " " + input;
                 PreviousValue = Expression;
                 isDecimalInEntryUsed = false;
-                isArithmeticOperatorInEntryUsed = true;
+                isOperatorInEntryUsed = true;
                 isArithmeticOperationPerformed = false;
 
                 return PreviousValue;
@@ -126,7 +126,7 @@ namespace cSharpIccCalculator
             }
         }
 
-        public string CalculateResult()
+        public string Operation()
         {
             try
             {
@@ -135,50 +135,56 @@ namespace cSharpIccCalculator
                     || PresentValue == "Not Divisible by Zero"
                     || PresentValue == "Overflow") Clear();
 
-                if (!isArithmeticOperationPerformed) Expression += " " + PresentValue;
+                if (!isArithmeticOperationPerformed)    // using equals without any operator
+                {
+                    PresentValue = TrailingZeroDecimalFormat(Convert.ToDecimal(PresentValue));
+                    PresentValue = ThousandSeparatorFormat(PresentValue);
+                    Expression += " " + PresentValue;
+                }
                 else Expression = Result;
-
+                
+                string cleanedExpression = Expression.Replace(" ", "").Replace(",", "");
                 if (Expression.Contains("/ 0")) throw new DivideByZeroException();
 
-                string cleanedExpression = Expression.Replace(" ", "");
-
                 // perform percentage calculation if % exists in the expression
-                if (cleanedExpression.Contains("%")) cleanedExpression = PercentageCalculation(cleanedExpression);  
+                if (isPercentageOperatorInEntry) cleanedExpression = PercentageOperation(cleanedExpression);
 
                 // calculate the remaining expression using MDAS
                 var result = new DataTable().Compute(cleanedExpression, null);
                 decimal convertedResult = Convert.ToDecimal(result);
-
-                // format the result by removing unecessary decimal (.0)
-                PresentValue = convertedResult % 1 == 0 ? ((int)convertedResult).ToString() : convertedResult.ToString();
                 
-                Result = result.ToString();
+                Result = TrailingZeroDecimalFormat(convertedResult);
+                PresentValue = TrailingZeroDecimalFormat(convertedResult);
+                
+                Result = ThousandSeparatorFormat(Result);
+                PresentValue = ThousandSeparatorFormat(PresentValue);
+                
                 Equation = (Expression + " = " + Result).Trim();
                 PreviousValue = (Expression + " =").Trim();
                 isDecimalInEntryUsed = false;
-                isArithmeticOperatorInEntryUsed = false;
+                isOperatorInEntryUsed = false;
                 isArithmeticOperationPerformed = true;
                 
                 return PresentValue;
             }
             catch (DivideByZeroException)
             {
-                Equation = Expression + " = Not Divisible by Zero";
+                Equation = (Expression + " = Not Divisible by Zero").Trim();
                 return PresentValue = "Not Divisible by Zero";
             }
             catch (OverflowException)
             {
-                Equation = Expression + " = Overflow";
+                Equation = (Expression + " = Overflow").Trim();
                 return PresentValue = "Overflow";
             }
             catch (Exception)
             {
-                Equation = Expression + " = Calculation Error";
+                Equation = (Expression + " = Calculation Error").Trim();
                 return PresentValue = "Calculation Error";
             }
         }
 
-        private string PercentageCalculation(string expression)
+        private string PercentageOperation(string expression)
         {
             var matches = Regex.Matches(expression, @"(\d+(\.\d+)?)\s*%\s*(\d+(\.\d+)?)");  // determine percentage values to compute
 
@@ -192,10 +198,58 @@ namespace cSharpIccCalculator
 
                 // replace the identified percentage values and replace it with the computed percentage value
                 expression = expression.Replace(match.Value, percentageResult.ToString()); 
-                isPercentageOperationPerformed = true;
+                isPercentageOperatorInEntry = false;
             }
 
             return expression;
+        }
+
+        private string ThousandSeparatorFormat(string number)
+        {
+            if (string.IsNullOrWhiteSpace(number))
+                return "0";
+
+            // Check if there's a decimal point
+            int decimalIndex = number.IndexOf('.');
+            string integerPart = (decimalIndex >= 0) ? number.Substring(0, decimalIndex) : number;
+            string decimalPart = (decimalIndex >= 0) ? number.Substring(decimalIndex) : "";
+
+            // Remove all invalid commas from the integer part
+            integerPart = integerPart.Replace(",", "").Replace("-", "");
+
+            // Check for empty integer part after cleaning
+            if (string.IsNullOrWhiteSpace(integerPart))
+                return "0" + decimalPart;
+
+            // Format integer part with thousands separators
+            string formattedIntegerPart = string.Empty;
+            int length = integerPart.Length;
+
+            for (int i = 0; i < length; i++)
+            {
+                // Append comma for every three digits from the right
+                if (i > 0 && (length - i) % 3 == 0)
+                {
+                    formattedIntegerPart += ","; // Add thousands separator
+                }
+                formattedIntegerPart += integerPart[i];
+            }
+
+            // Reattach the decimal part if it exists
+            return formattedIntegerPart + decimalPart;
+        }
+
+        private string TrailingZeroDecimalFormat(decimal value, int limit = 15)
+        {
+            // apply 0.## format, removes unecessary zero/s (.0 or .10 = 1)
+            decimal roundedValue = Math.Round(value, limit);
+            return roundedValue.ToString("0.###############");
+        }   // remove unecessary trailing zero/s
+
+        private bool LimitedDecimalFormat(string value, int limit = 15)
+        {
+            int decimalIndex = value.IndexOf('.');
+            return decimalIndex != -1 && value.Length - decimalIndex - 1 >= limit;
         }
 
         public void Clear()
@@ -206,9 +260,9 @@ namespace cSharpIccCalculator
             Expression = "";
             Result = "";
             isDecimalInEntryUsed = false;
-            isArithmeticOperatorInEntryUsed = false;
+            isOperatorInEntryUsed = false;
             isArithmeticOperationPerformed = false;
-            isPercentageOperationPerformed = false;
+            isPercentageOperatorInEntry = false;
         }
 
         public void ClearRecentEntry()
@@ -222,29 +276,22 @@ namespace cSharpIccCalculator
                 return;
             }
 
-            if (string.IsNullOrEmpty(PreviousValue))
-            {
-                if (!isArithmeticOperationPerformed || !isPercentageOperationPerformed)
-                {
-                    if (PresentValue.Length >= 1)
-                    {
-                        // remove the last character
-                        PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
-
-                        // disable flag
-                        if (!PresentValue.Contains(".")) isDecimalInEntryUsed = false;
-                    }
-
-                    // if present value reaches empty, put 0 to avoid blank present value
-                    if (PresentValue.Length == 0) PresentValue = "0";
-                } 
-            }
+            if (isArithmeticOperationPerformed) PreviousValue = "";
             else
             {
-                // Clear previous value and expression
-                PreviousValue = "";
-                Expression = "";
+                if (PresentValue.Length >= 1)
+                {
+                    // remove the last character
+                    PresentValue = PresentValue.Substring(0, PresentValue.Length - 1);
+
+                    // remove flag
+                    if (!PresentValue.Contains(".")) isDecimalInEntryUsed = false;
+                }
+
+                // if present value reaches empty, put 0 to avoid blank present value
+                if (PresentValue.Length == 0) PresentValue = "0";
             }
+
         }
     }
 }

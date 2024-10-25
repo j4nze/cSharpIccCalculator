@@ -46,7 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CalculatorClass.cs" />
+    <Compile Include="Services\CalculatorHandler.cs" />
     <Compile Include="CalculatorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,7 +62,7 @@
     <Compile Include="Custom Tools\CustomizedNoCaretTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="HistoryClass.cs" />
+    <Compile Include="Services\HistoryHandler.cs" />
     <Compile Include="HistoryForm.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -101,13 +101,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\calculatorFormIcon.png" />
+    <None Include="Assets\historyButtonIcon3.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\calculatorButtonIcon.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Assets\historyButtonIcon.png" />
+    <None Include="Assets\calculatorButtonIcon2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -27,6 +27,8 @@ namespace cSharpIccCalculator
         {
             base.OnGotFocus(e);
             HideCaret(this.Handle); // Hide the caret when the TextBox gets focus
+            this.SelectionStart = this.Text.Length;  // Set cursor at the end of the text
+            this.SelectionLength = 0;  // Ensure no text is highlighted
         }
 
         protected override void OnLostFocus(EventArgs e)

@@ -63,9 +63,9 @@ namespace cSharpIccCalculator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap calculator__2_ {
+        internal static System.Drawing.Bitmap calculatorButtonIcon2 {
             get {
-                object obj = ResourceManager.GetObject("calculator (2)", resourceCulture);
+                object obj = ResourceManager.GetObject("calculatorButtonIcon2", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -73,29 +73,9 @@ namespace cSharpIccCalculator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap calculator__3_ {
+        internal static System.Drawing.Bitmap historyButtonIcon3 {
             get {
-                object obj = ResourceManager.GetObject("calculator (3)", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap calculator_6_32 {
-            get {
-                object obj = ResourceManager.GetObject("calculator-6-32", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap history {
-            get {
-                object obj = ResourceManager.GetObject("history", resourceCulture);
+                object obj = ResourceManager.GetObject("historyButtonIcon3", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

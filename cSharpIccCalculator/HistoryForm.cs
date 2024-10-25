@@ -12,29 +12,11 @@ namespace cSharpIccCalculator
 {
     public partial class HistoryForm : UserControl
     {
+        private HistoryHandler histHandler;
         public HistoryForm()
         {
             InitializeComponent();
-        }
-
-        private void listBoxHistory_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void customizedBorRadPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void customizedBorRadPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
+            listBoxHistory.Items.Add("There's no history yet.");
         }
     }
 }

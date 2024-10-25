@@ -14,12 +14,14 @@ namespace cSharpIccCalculator
 {
     public partial class CalculatorForm : Form
     {
-        private CalculatorClass calculatorClass;
+        private CalculatorHandler calcHandler;
+        private HistoryHandler histHandler;
 
         public CalculatorForm()
         {
             InitializeComponent();
-            calculatorClass = new CalculatorClass();
+            calcHandler = new CalculatorHandler();
+            histHandler = new HistoryHandler();
             this.KeyPreview = true;
             this.KeyPress += CalculatorForm_KeyPress;
             this.KeyDown += CalculatorForm_KeyDown;
@@ -28,44 +30,48 @@ namespace cSharpIccCalculator
            
         }
 
+        // =============================================== INPUT/ OUTPUT HANDLER
         // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
         private void NumericAndDecimalHandler(string input)
         {
-            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.HandleNumberAndDecimal(input);
-            calculatorClass.PresentValue = customizedNoCaretTextBoxPresentValue.Text;
-            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
+            customizedNoCaretTextBoxPresentValue.Text = calcHandler.NumberAndDecimal(input);
+            calcHandler.PresentValue = customizedNoCaretTextBoxPresentValue.Text;
+            textBoxPreviousValue.Text = calcHandler.PreviousValue;
         }
         // /, *, -, +, %
         private void OperatorHandler(string input)
         {
-            textBoxPreviousValue.Text = calculatorClass.HandleOperator(input);
-            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
+            textBoxPreviousValue.Text = calcHandler.Operator(input);
+            customizedNoCaretTextBoxPresentValue.Text = calcHandler.PresentValue;
         }
         private void CalculationHandler()
         {
-            if (calculatorClass.PresentValue == "Calculation Error" 
-                || calculatorClass.PresentValue == "Not Divisible by Zero" 
-                || calculatorClass.PresentValue == "Overflow") ClearHandler();
+            if (calcHandler.PresentValue == "Calculation Error" 
+                || calcHandler.PresentValue == "Not Divisible by Zero" 
+                || calcHandler.PresentValue == "Overflow") ClearHandler();
             else
             {
-                string result = calculatorClass.CalculateResult();
-                textBoxPreviousValue.Text = (CalculatorClass.Expression + " =").Trim();
+                string result = calcHandler.Operation();
+                textBoxPreviousValue.Text = (CalculatorHandler.Expression + " =").Trim();
                 customizedNoCaretTextBoxPresentValue.Text = result;
-                ucHistoryForm.listBoxHistory.Items.Add(CalculatorClass.Equation);
-            }
 
+                string entry = CalculatorHandler.Equation;
+                histHandler.AddEntry(entry);
+                ucHistoryForm.listBoxHistory.Items.Clear();
+                ucHistoryForm.listBoxHistory.Items.AddRange(histHandler.GetHistory().ToArray());
+            }
         }
         private void ClearHandler()
         {
-            calculatorClass.Clear();
-            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
+            calcHandler.Clear();
+            textBoxPreviousValue.Text = calcHandler.PreviousValue;
+            customizedNoCaretTextBoxPresentValue.Text = calcHandler.PresentValue;
         }
         private void ClearRecentEntryHandler()
         {
-            calculatorClass.ClearRecentEntry();
-            textBoxPreviousValue.Text = calculatorClass.PreviousValue;
-            customizedNoCaretTextBoxPresentValue.Text = calculatorClass.PresentValue;
+            calcHandler.ClearRecentEntry();
+            textBoxPreviousValue.Text = calcHandler.PreviousValue;
+            customizedNoCaretTextBoxPresentValue.Text = calcHandler.PresentValue;
         }
         private void CalculatorDisplayHandler()
         {
@@ -80,37 +86,43 @@ namespace cSharpIccCalculator
             ucHistoryForm.Visible = true;
         }
         
-        
         //  ============================================== CLICK EVENT
         private void numericAndDecimal_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             NumericAndDecimalHandler(button.Text);
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void operation_click(object sender, EventArgs e)
         {
             Button button = (Button)sender;
             OperatorHandler(button.Text);
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void buttonEqual_Click(object sender, EventArgs e)
         {
             CalculationHandler();
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void buttonClear_Click(object sender, EventArgs e)
         {
             ClearHandler();
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void buttonClearRecentEntry_Click(object sender, EventArgs e)
         {
             ClearRecentEntryHandler();
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void buttonCalculator_Click(object sender, EventArgs e)
         {
             CalculatorDisplayHandler();
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
         private void buttonHistory_Click(object sender, EventArgs e)
         {
             HistoryDisplayHandler();
+            customizedNoCaretTextBoxPresentValue.Focus();
         }
 
         // ================================================ KEY EVENT
@@ -164,10 +176,10 @@ namespace cSharpIccCalculator
             customizedNoCaretTextBoxPresentValue.SelectionStart = customizedNoCaretTextBoxPresentValue.Text.Length;
             customizedNoCaretTextBoxPresentValue.SelectionLength = customizedNoCaretTextBoxPresentValue.Text.Length;
         }
-        //protected override void OnShown(EventArgs e)
-        //{
-        //    base.OnShown(e);
-        //    this.Focus();
-        //}
+
+        private void CalculatorForm_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
