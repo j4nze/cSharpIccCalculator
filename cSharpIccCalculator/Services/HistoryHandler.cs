@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace cSharpIccCalculator
 {
@@ -25,6 +26,12 @@ namespace cSharpIccCalculator
         public List<string> GetHistory()
         {
             return historyEntries;
+        }
+
+        // clear history
+        public void ClearHistory()
+        {
+            historyEntries.Clear();
         }
     }
 }

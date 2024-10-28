@@ -25,25 +25,25 @@ namespace cSharpIccCalculator
             this.KeyPreview = true;
             this.KeyPress += CalculatorForm_KeyPress;
             this.KeyDown += CalculatorForm_KeyDown;
-            customizedNoCaretTextBoxPresentValue.SelectionStart = customizedNoCaretTextBoxPresentValue.Text.Length;
-            customizedNoCaretTextBoxPresentValue.SelectionLength = customizedNoCaretTextBoxPresentValue.Text.Length;
-           
         }
 
         // =============================================== INPUT/ OUTPUT HANDLER
-        // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
         private void NumericAndDecimalHandler(string input)
         {
             customizedNoCaretTextBoxPresentValue.Text = calcHandler.NumberAndDecimal(input);
             calcHandler.PresentValue = customizedNoCaretTextBoxPresentValue.Text;
             textBoxPreviousValue.Text = calcHandler.PreviousValue;
-        }
-        // /, *, -, +, %
+        }   // 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, .
         private void OperatorHandler(string input)
         {
             textBoxPreviousValue.Text = calcHandler.Operator(input);
             customizedNoCaretTextBoxPresentValue.Text = calcHandler.PresentValue;
-        }
+        }            // /, *, -, +, %
+        private void PlusMinusSignHandler(string input)
+        {
+            customizedNoCaretTextBoxPresentValue.Text = calcHandler.PlusMinusSign(input);
+            calcHandler.PresentValue = customizedNoCaretTextBoxPresentValue.Text;
+        }       // +/-
         private void CalculationHandler()
         {
             if (calcHandler.PresentValue == "Calculation Error" 
@@ -59,6 +59,7 @@ namespace cSharpIccCalculator
                 histHandler.AddEntry(entry);
                 ucHistoryForm.listBoxHistory.Items.Clear();
                 ucHistoryForm.listBoxHistory.Items.AddRange(histHandler.GetHistory().ToArray());
+                ucHistoryForm.buttonClearHistory.Visible = true;
             }
         }
         private void ClearHandler()
@@ -99,17 +100,23 @@ namespace cSharpIccCalculator
             OperatorHandler(button.Text);
             customizedNoCaretTextBoxPresentValue.Focus();
         }
-        private void buttonEqual_Click(object sender, EventArgs e)
+        private void customizedBorRadButtonPlusMinus_Click(object sender, EventArgs e)
+        {
+            Button button = (Button)sender;
+            PlusMinusSignHandler(customizedNoCaretTextBoxPresentValue.Text);
+            customizedNoCaretTextBoxPresentValue.Focus();
+        }
+        private void customizedBorRadButtonEqual_Click(object sender, EventArgs e)
         {
             CalculationHandler();
             customizedNoCaretTextBoxPresentValue.Focus();
         }
-        private void buttonClear_Click(object sender, EventArgs e)
+        private void customizedBorRadButtonClear_Click(object sender, EventArgs e)
         {
             ClearHandler();
             customizedNoCaretTextBoxPresentValue.Focus();
         }
-        private void buttonClearRecentEntry_Click(object sender, EventArgs e)
+        private void customizedBorRadButtonClearRecentEntry_Click(object sender, EventArgs e)
         {
             ClearRecentEntryHandler();
             customizedNoCaretTextBoxPresentValue.Focus();
@@ -126,60 +133,166 @@ namespace cSharpIccCalculator
         }
 
         // ================================================ KEY EVENT
-        private void CalculatorForm_KeyPress(object sender, KeyPressEventArgs e)
+        private async void CalculatorForm_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (char.IsDigit(e.KeyChar) || e.KeyChar == '.')
             {
+                await NumberDecimalKeyEffect(e.KeyChar);
                 NumericAndDecimalHandler(e.KeyChar.ToString());
             }
             else if (e.KeyChar == '+' || e.KeyChar == '-' || e.KeyChar == '*' || e.KeyChar == '/' || e.KeyChar == '%')
             {
+                await OperatorKeyEffect(e.KeyChar);
                 OperatorHandler(e.KeyChar.ToString());
             }
             else if (e.KeyChar == '=')
             {
-                e.Handled = true;
+                EqualKeyEffect();
                 CalculationHandler();
             }
             else if (char.ToLower(e.KeyChar) == 'c')
             {
+                await HistoryCalculatorKeyEffect(buttonCalculator);
                 CalculatorDisplayHandler();
             }
             else if (char.ToLower(e.KeyChar) == 'h')
             {
+                await HistoryCalculatorKeyEffect(buttonHistory);
                 HistoryDisplayHandler();
             }
+            e.Handled = true;
         }
-        private void CalculatorForm_KeyDown(object sender, KeyEventArgs e)
+        private async void CalculatorForm_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Back || e.KeyCode == Keys.Delete)
             {
+                await ClearKeyEffect(customizedBorRadButtonClearEntry);
                 ClearRecentEntryHandler();
-                e.Handled = true;
             }
 
             if (e.KeyCode == Keys.Escape)
             {
+                await ClearKeyEffect(customizedBorRadButtonClear);
                 ClearHandler();
-                e.Handled |= true;
             }
 
             if (e.KeyCode == Keys.Enter)
             {
+                EqualKeyEffect();
                 CalculationHandler();
-                e.Handled = true;
             }
+
+            e.Handled = true;
         }
 
-        private void textBoxPresentValue_TextChanged(object sender, EventArgs e)
+        // ================================================ KEY EFFECT
+        private async Task NumberDecimalKeyEffect(char input)
         {
-            customizedNoCaretTextBoxPresentValue.SelectionStart = customizedNoCaretTextBoxPresentValue.Text.Length;
-            customizedNoCaretTextBoxPresentValue.SelectionLength = customizedNoCaretTextBoxPresentValue.Text.Length;
-        }
+            Button button;
 
-        private void CalculatorForm_Load(object sender, EventArgs e)
+            switch (input)
+            {
+                case '1':
+                    button = customizedBorRadButton1;
+                    break;
+                case '2':
+                    button = customizedBorRadButton2;
+                    break;
+                case '3':
+                    button = customizedBorRadButton3;
+                    break;
+                case '4':
+                    button = customizedBorRadButton4;
+                    break;
+                case '5':
+                    button = customizedBorRadButton5;
+                    break;
+                case '6':
+                    button = customizedBorRadButton6;
+                    break;
+                case '7':
+                    button = customizedBorRadButton7;
+                    break;
+                case '8':
+                    button = customizedBorRadButton8;
+                    break;
+                case '9':
+                    button = customizedBorRadButton9;
+                    break;
+                case '0':
+                    button = customizedBorRadButton0;
+                    break;
+                case '.':
+                    button = customizedBorRadButtonDecimal;
+                    break;
+                default:
+                    button = null;
+                    break;
+            }
+
+            if (button != null)
+            {
+                button.BackColor = Color.FromArgb(80, 90, 100);
+                await Task.Delay(150);
+                button.BackColor = Color.FromArgb(58, 65, 79);
+            }
+        }              // NUMBER/ DECIMAL
+        private async Task OperatorKeyEffect(char input)
         {
+            Button button;
 
-        }
+            switch (input)
+            {
+                case '+':
+                    button = customizedBorRadButtonAddition;
+                    break;
+                case '-':
+                    button = customizedBorRadButtonSubtraction;
+                    break;
+                case '*':
+                    button = customizedBorRadButtonMultiplication;
+                    break;
+                case '/':
+                    button = customizedBorRadButtonDivision;
+                    break;
+                case '%':
+                    button = customizedBorRadButtonPercent;
+                    break;
+                default:
+                    button = null;
+                    break;
+            }
+
+            if (button != null)
+            {
+                button.BackColor = Color.FromArgb(62, 68, 81);
+                await Task.Delay(150);
+                button.BackColor = Color.FromArgb(45, 50, 61);
+            }
+        }                   // OPERATOR
+        private async void EqualKeyEffect()
+        {
+            customizedBorRadButtonEqual.BackColor = Color.FromArgb(36, 158, 95);
+            await Task.Delay(150);
+            customizedBorRadButtonEqual.BackColor = Color.FromArgb(6, 128, 65);
+        }                                // EQUAL
+        private async Task ClearKeyEffect(Button button)
+        {
+            if (button != null)
+            {
+                button.BackColor = Color.FromArgb(62, 68, 81);
+                await Task.Delay(150);
+                button.BackColor = Color.FromArgb(45, 50, 61);
+            }
+        }                   // CLEAR/ CLEAR RECENT
+        private async Task HistoryCalculatorKeyEffect(Button button)
+        {
+            if (button != null)
+            {
+                button.BackColor = Color.FromArgb(80, 90, 100);
+                await Task.Delay(150);
+                button.BackColor = Color.FromArgb(58, 65, 79);
+            }
+        }       // HISTORY/ CALCULATOR
     }
 }

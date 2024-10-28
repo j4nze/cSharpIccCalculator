@@ -35,9 +35,7 @@
             this.customizedNoCaretTextBoxPresentValue = new cSharpIccCalculator.CustomizedNoCaretTextBox();
             this.textBoxPreviousValue = new System.Windows.Forms.TextBox();
             this.customizedBorRadPanel2 = new cSharpIccCalculator.CustomizedBorRadPanel();
-            this.customizedBorRadButtonAddition = new cSharpIccCalculator.CustomizedBorRadButton();
-            this.customizedBorRadButtonSubtraction = new cSharpIccCalculator.CustomizedBorRadButton();
-            this.customizedBorRadButtonMultiplication = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonPlusMinus = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonDecimal = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButton0 = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButton3 = new cSharpIccCalculator.CustomizedBorRadButton();
@@ -49,11 +47,14 @@
             this.customizedBorRadButton8 = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButton7 = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonDivision = new cSharpIccCalculator.CustomizedBorRadButton();
-            this.customizedBorRadButtonClearEntry = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonPercent = new cSharpIccCalculator.CustomizedBorRadButton();
-            this.customizedBorRadButtonClear = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButton2 = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonEqual = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonClearEntry = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonMultiplication = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonSubtraction = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonAddition = new cSharpIccCalculator.CustomizedBorRadButton();
+            this.customizedBorRadButtonClear = new cSharpIccCalculator.CustomizedBorRadButton();
             this.ucHistoryForm = new cSharpIccCalculator.HistoryForm();
             this.customizedBorRadPanel1.SuspendLayout();
             this.customizedBorRadPanel2.SuspendLayout();
@@ -124,7 +125,6 @@
             this.customizedNoCaretTextBoxPresentValue.TabIndex = 100;
             this.customizedNoCaretTextBoxPresentValue.Text = "0";
             this.customizedNoCaretTextBoxPresentValue.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            this.customizedNoCaretTextBoxPresentValue.TextChanged += new System.EventHandler(this.textBoxPresentValue_TextChanged);
             // 
             // textBoxPreviousValue
             // 
@@ -154,6 +154,7 @@
             this.customizedBorRadPanel2.BorderRadius = 6;
             this.customizedBorRadPanel2.BorderSize = 0;
             this.customizedBorRadPanel2.Controls.Add(this.ucHistoryForm);
+            this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonPlusMinus);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonDecimal);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButton0);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButton3);
@@ -179,65 +180,25 @@
             this.customizedBorRadPanel2.Size = new System.Drawing.Size(454, 390);
             this.customizedBorRadPanel2.TabIndex = 44;
             // 
-            // customizedBorRadButtonAddition
+            // customizedBorRadButtonPlusMinus
             // 
-            this.customizedBorRadButtonAddition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonAddition.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonAddition.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.customizedBorRadButtonAddition.BorderRadius = 5;
-            this.customizedBorRadButtonAddition.BorderSize = 0;
-            this.customizedBorRadButtonAddition.FlatAppearance.BorderSize = 0;
-            this.customizedBorRadButtonAddition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.customizedBorRadButtonAddition.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customizedBorRadButtonAddition.ForeColor = System.Drawing.Color.White;
-            this.customizedBorRadButtonAddition.Location = new System.Drawing.Point(341, 236);
-            this.customizedBorRadButtonAddition.Name = "customizedBorRadButtonAddition";
-            this.customizedBorRadButtonAddition.Size = new System.Drawing.Size(105, 70);
-            this.customizedBorRadButtonAddition.TabIndex = 59;
-            this.customizedBorRadButtonAddition.Text = "+";
-            this.customizedBorRadButtonAddition.TextColor = System.Drawing.Color.White;
-            this.customizedBorRadButtonAddition.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonAddition.Click += new System.EventHandler(this.operation_click);
-            // 
-            // customizedBorRadButtonSubtraction
-            // 
-            this.customizedBorRadButtonSubtraction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonSubtraction.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonSubtraction.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.customizedBorRadButtonSubtraction.BorderRadius = 5;
-            this.customizedBorRadButtonSubtraction.BorderSize = 0;
-            this.customizedBorRadButtonSubtraction.FlatAppearance.BorderSize = 0;
-            this.customizedBorRadButtonSubtraction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.customizedBorRadButtonSubtraction.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customizedBorRadButtonSubtraction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.customizedBorRadButtonSubtraction.Location = new System.Drawing.Point(342, 160);
-            this.customizedBorRadButtonSubtraction.Name = "customizedBorRadButtonSubtraction";
-            this.customizedBorRadButtonSubtraction.Size = new System.Drawing.Size(105, 70);
-            this.customizedBorRadButtonSubtraction.TabIndex = 58;
-            this.customizedBorRadButtonSubtraction.Text = "-";
-            this.customizedBorRadButtonSubtraction.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.customizedBorRadButtonSubtraction.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonSubtraction.Click += new System.EventHandler(this.operation_click);
-            // 
-            // customizedBorRadButtonMultiplication
-            // 
-            this.customizedBorRadButtonMultiplication.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonMultiplication.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonMultiplication.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.customizedBorRadButtonMultiplication.BorderRadius = 5;
-            this.customizedBorRadButtonMultiplication.BorderSize = 0;
-            this.customizedBorRadButtonMultiplication.FlatAppearance.BorderSize = 0;
-            this.customizedBorRadButtonMultiplication.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.customizedBorRadButtonMultiplication.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customizedBorRadButtonMultiplication.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.customizedBorRadButtonMultiplication.Location = new System.Drawing.Point(341, 84);
-            this.customizedBorRadButtonMultiplication.Name = "customizedBorRadButtonMultiplication";
-            this.customizedBorRadButtonMultiplication.Size = new System.Drawing.Size(105, 70);
-            this.customizedBorRadButtonMultiplication.TabIndex = 57;
-            this.customizedBorRadButtonMultiplication.Text = "*";
-            this.customizedBorRadButtonMultiplication.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.customizedBorRadButtonMultiplication.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonMultiplication.Click += new System.EventHandler(this.operation_click);
+            this.customizedBorRadButtonPlusMinus.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(65)))), ((int)(((byte)(79)))));
+            this.customizedBorRadButtonPlusMinus.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(65)))), ((int)(((byte)(79)))));
+            this.customizedBorRadButtonPlusMinus.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonPlusMinus.BorderRadius = 5;
+            this.customizedBorRadButtonPlusMinus.BorderSize = 0;
+            this.customizedBorRadButtonPlusMinus.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonPlusMinus.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonPlusMinus.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonPlusMinus.ForeColor = System.Drawing.Color.White;
+            this.customizedBorRadButtonPlusMinus.Location = new System.Drawing.Point(8, 312);
+            this.customizedBorRadButtonPlusMinus.Name = "customizedBorRadButtonPlusMinus";
+            this.customizedBorRadButtonPlusMinus.Size = new System.Drawing.Size(105, 70);
+            this.customizedBorRadButtonPlusMinus.TabIndex = 61;
+            this.customizedBorRadButtonPlusMinus.Text = "+/-";
+            this.customizedBorRadButtonPlusMinus.TextColor = System.Drawing.Color.White;
+            this.customizedBorRadButtonPlusMinus.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonPlusMinus.Click += new System.EventHandler(this.customizedBorRadButtonPlusMinus_Click);
             // 
             // customizedBorRadButtonDecimal
             // 
@@ -270,9 +231,9 @@
             this.customizedBorRadButton0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.customizedBorRadButton0.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customizedBorRadButton0.ForeColor = System.Drawing.Color.White;
-            this.customizedBorRadButton0.Location = new System.Drawing.Point(8, 312);
+            this.customizedBorRadButton0.Location = new System.Drawing.Point(119, 312);
             this.customizedBorRadButton0.Name = "customizedBorRadButton0";
-            this.customizedBorRadButton0.Size = new System.Drawing.Size(216, 70);
+            this.customizedBorRadButton0.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButton0.TabIndex = 55;
             this.customizedBorRadButton0.Text = "0";
             this.customizedBorRadButton0.TextColor = System.Drawing.Color.White;
@@ -461,26 +422,6 @@
             this.customizedBorRadButtonDivision.UseVisualStyleBackColor = false;
             this.customizedBorRadButtonDivision.Click += new System.EventHandler(this.operation_click);
             // 
-            // customizedBorRadButtonClearEntry
-            // 
-            this.customizedBorRadButtonClearEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonClearEntry.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonClearEntry.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.customizedBorRadButtonClearEntry.BorderRadius = 5;
-            this.customizedBorRadButtonClearEntry.BorderSize = 0;
-            this.customizedBorRadButtonClearEntry.FlatAppearance.BorderSize = 0;
-            this.customizedBorRadButtonClearEntry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.customizedBorRadButtonClearEntry.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customizedBorRadButtonClearEntry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
-            this.customizedBorRadButtonClearEntry.Location = new System.Drawing.Point(119, 8);
-            this.customizedBorRadButtonClearEntry.Name = "customizedBorRadButtonClearEntry";
-            this.customizedBorRadButtonClearEntry.Size = new System.Drawing.Size(105, 68);
-            this.customizedBorRadButtonClearEntry.TabIndex = 44;
-            this.customizedBorRadButtonClearEntry.Text = "C";
-            this.customizedBorRadButtonClearEntry.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
-            this.customizedBorRadButtonClearEntry.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonClearEntry.Click += new System.EventHandler(this.buttonClearRecentEntry_Click);
-            // 
             // customizedBorRadButtonPercent
             // 
             this.customizedBorRadButtonPercent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
@@ -500,28 +441,6 @@
             this.customizedBorRadButtonPercent.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.customizedBorRadButtonPercent.UseVisualStyleBackColor = false;
             this.customizedBorRadButtonPercent.Click += new System.EventHandler(this.operation_click);
-            // 
-            // customizedBorRadButtonClear
-            // 
-            this.customizedBorRadButtonClear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.customizedBorRadButtonClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonClear.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
-            this.customizedBorRadButtonClear.BorderColor = System.Drawing.Color.PaleVioletRed;
-            this.customizedBorRadButtonClear.BorderRadius = 5;
-            this.customizedBorRadButtonClear.BorderSize = 0;
-            this.customizedBorRadButtonClear.FlatAppearance.BorderSize = 0;
-            this.customizedBorRadButtonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.customizedBorRadButtonClear.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.customizedBorRadButtonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
-            this.customizedBorRadButtonClear.Location = new System.Drawing.Point(8, 8);
-            this.customizedBorRadButtonClear.Name = "customizedBorRadButtonClear";
-            this.customizedBorRadButtonClear.Size = new System.Drawing.Size(105, 70);
-            this.customizedBorRadButtonClear.TabIndex = 42;
-            this.customizedBorRadButtonClear.Text = "AC";
-            this.customizedBorRadButtonClear.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
-            this.customizedBorRadButtonClear.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonClear.Click += new System.EventHandler(this.buttonClear_Click);
             // 
             // customizedBorRadButton2
             // 
@@ -561,7 +480,109 @@
             this.customizedBorRadButtonEqual.Text = "=";
             this.customizedBorRadButtonEqual.TextColor = System.Drawing.Color.White;
             this.customizedBorRadButtonEqual.UseVisualStyleBackColor = false;
-            this.customizedBorRadButtonEqual.Click += new System.EventHandler(this.buttonEqual_Click);
+            this.customizedBorRadButtonEqual.Click += new System.EventHandler(this.customizedBorRadButtonEqual_Click);
+            // 
+            // customizedBorRadButtonClearEntry
+            // 
+            this.customizedBorRadButtonClearEntry.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonClearEntry.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonClearEntry.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonClearEntry.BorderRadius = 5;
+            this.customizedBorRadButtonClearEntry.BorderSize = 0;
+            this.customizedBorRadButtonClearEntry.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonClearEntry.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonClearEntry.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonClearEntry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
+            this.customizedBorRadButtonClearEntry.Location = new System.Drawing.Point(119, 8);
+            this.customizedBorRadButtonClearEntry.Name = "customizedBorRadButtonClearEntry";
+            this.customizedBorRadButtonClearEntry.Size = new System.Drawing.Size(105, 68);
+            this.customizedBorRadButtonClearEntry.TabIndex = 44;
+            this.customizedBorRadButtonClearEntry.Text = "C";
+            this.customizedBorRadButtonClearEntry.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
+            this.customizedBorRadButtonClearEntry.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonClearEntry.Click += new System.EventHandler(this.customizedBorRadButtonClearRecentEntry_Click);
+            // 
+            // customizedBorRadButtonMultiplication
+            // 
+            this.customizedBorRadButtonMultiplication.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonMultiplication.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonMultiplication.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonMultiplication.BorderRadius = 5;
+            this.customizedBorRadButtonMultiplication.BorderSize = 0;
+            this.customizedBorRadButtonMultiplication.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonMultiplication.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonMultiplication.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonMultiplication.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.customizedBorRadButtonMultiplication.Location = new System.Drawing.Point(341, 84);
+            this.customizedBorRadButtonMultiplication.Name = "customizedBorRadButtonMultiplication";
+            this.customizedBorRadButtonMultiplication.Size = new System.Drawing.Size(105, 70);
+            this.customizedBorRadButtonMultiplication.TabIndex = 57;
+            this.customizedBorRadButtonMultiplication.Text = "*";
+            this.customizedBorRadButtonMultiplication.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.customizedBorRadButtonMultiplication.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonMultiplication.Click += new System.EventHandler(this.operation_click);
+            // 
+            // customizedBorRadButtonSubtraction
+            // 
+            this.customizedBorRadButtonSubtraction.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonSubtraction.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonSubtraction.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonSubtraction.BorderRadius = 5;
+            this.customizedBorRadButtonSubtraction.BorderSize = 0;
+            this.customizedBorRadButtonSubtraction.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonSubtraction.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonSubtraction.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonSubtraction.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.customizedBorRadButtonSubtraction.Location = new System.Drawing.Point(342, 160);
+            this.customizedBorRadButtonSubtraction.Name = "customizedBorRadButtonSubtraction";
+            this.customizedBorRadButtonSubtraction.Size = new System.Drawing.Size(105, 70);
+            this.customizedBorRadButtonSubtraction.TabIndex = 58;
+            this.customizedBorRadButtonSubtraction.Text = "-";
+            this.customizedBorRadButtonSubtraction.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
+            this.customizedBorRadButtonSubtraction.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonSubtraction.Click += new System.EventHandler(this.operation_click);
+            // 
+            // customizedBorRadButtonAddition
+            // 
+            this.customizedBorRadButtonAddition.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonAddition.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonAddition.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonAddition.BorderRadius = 5;
+            this.customizedBorRadButtonAddition.BorderSize = 0;
+            this.customizedBorRadButtonAddition.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonAddition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonAddition.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonAddition.ForeColor = System.Drawing.Color.White;
+            this.customizedBorRadButtonAddition.Location = new System.Drawing.Point(341, 236);
+            this.customizedBorRadButtonAddition.Name = "customizedBorRadButtonAddition";
+            this.customizedBorRadButtonAddition.Size = new System.Drawing.Size(105, 70);
+            this.customizedBorRadButtonAddition.TabIndex = 59;
+            this.customizedBorRadButtonAddition.Text = "+";
+            this.customizedBorRadButtonAddition.TextColor = System.Drawing.Color.White;
+            this.customizedBorRadButtonAddition.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonAddition.Click += new System.EventHandler(this.operation_click);
+            // 
+            // customizedBorRadButtonClear
+            // 
+            this.customizedBorRadButtonClear.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.customizedBorRadButtonClear.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonClear.BackgroundColor = System.Drawing.Color.FromArgb(((int)(((byte)(45)))), ((int)(((byte)(50)))), ((int)(((byte)(61)))));
+            this.customizedBorRadButtonClear.BorderColor = System.Drawing.Color.PaleVioletRed;
+            this.customizedBorRadButtonClear.BorderRadius = 5;
+            this.customizedBorRadButtonClear.BorderSize = 0;
+            this.customizedBorRadButtonClear.FlatAppearance.BorderSize = 0;
+            this.customizedBorRadButtonClear.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.customizedBorRadButtonClear.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.customizedBorRadButtonClear.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
+            this.customizedBorRadButtonClear.Location = new System.Drawing.Point(8, 8);
+            this.customizedBorRadButtonClear.Name = "customizedBorRadButtonClear";
+            this.customizedBorRadButtonClear.Size = new System.Drawing.Size(105, 70);
+            this.customizedBorRadButtonClear.TabIndex = 42;
+            this.customizedBorRadButtonClear.Text = "AC";
+            this.customizedBorRadButtonClear.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
+            this.customizedBorRadButtonClear.UseVisualStyleBackColor = false;
+            this.customizedBorRadButtonClear.Click += new System.EventHandler(this.customizedBorRadButtonClear_Click);
             // 
             // ucHistoryForm
             // 
@@ -601,7 +622,6 @@
             this.Padding = new System.Windows.Forms.Padding(10);
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "C# Winform Calculator";
-            this.Load += new System.EventHandler(this.CalculatorForm_Load);
             this.customizedBorRadPanel1.ResumeLayout(false);
             this.customizedBorRadPanel1.PerformLayout();
             this.customizedBorRadPanel2.ResumeLayout(false);
@@ -636,6 +656,7 @@
         private CustomizedBorRadButton customizedBorRadButton1;
         private CustomizedNoCaretTextBox customizedNoCaretTextBoxPresentValue;
         private System.Windows.Forms.Button buttonCalculator;
+        private CustomizedBorRadButton customizedBorRadButtonPlusMinus;
     }
 }
 

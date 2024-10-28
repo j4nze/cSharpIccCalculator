@@ -73,6 +73,16 @@ namespace cSharpIccCalculator.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap clearHistoryButtonIcon {
+            get {
+                object obj = ResourceManager.GetObject("clearHistoryButtonIcon", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap historyButtonIcon3 {
             get {
                 object obj = ResourceManager.GetObject("historyButtonIcon3", resourceCulture);

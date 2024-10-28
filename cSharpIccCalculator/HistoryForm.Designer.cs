@@ -32,6 +32,7 @@
             this.customizedBorRadPanel2 = new cSharpIccCalculator.CustomizedBorRadPanel();
             this.listBoxHistory = new System.Windows.Forms.ListBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.buttonClearHistory = new System.Windows.Forms.Button();
             this.customizedBorRadPanel1.SuspendLayout();
             this.customizedBorRadPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -43,6 +44,7 @@
             this.customizedBorRadPanel1.BorderColor = System.Drawing.Color.White;
             this.customizedBorRadPanel1.BorderRadius = 6;
             this.customizedBorRadPanel1.BorderSize = 0;
+            this.customizedBorRadPanel1.Controls.Add(this.buttonClearHistory);
             this.customizedBorRadPanel1.Controls.Add(this.customizedBorRadPanel2);
             this.customizedBorRadPanel1.Controls.Add(this.label1);
             this.customizedBorRadPanel1.Location = new System.Drawing.Point(0, 0);
@@ -95,6 +97,18 @@
             this.label1.Text = "History";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             // 
+            // buttonClearHistory
+            // 
+            this.buttonClearHistory.FlatAppearance.BorderSize = 0;
+            this.buttonClearHistory.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.buttonClearHistory.Image = global::cSharpIccCalculator.Properties.Resources.clearHistoryButtonIcon;
+            this.buttonClearHistory.Location = new System.Drawing.Point(386, 25);
+            this.buttonClearHistory.Name = "buttonClearHistory";
+            this.buttonClearHistory.Size = new System.Drawing.Size(40, 40);
+            this.buttonClearHistory.TabIndex = 3;
+            this.buttonClearHistory.UseVisualStyleBackColor = true;
+            this.buttonClearHistory.Click += new System.EventHandler(this.buttonClearHistory_Click);
+            // 
             // HistoryForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Inherit;
@@ -116,5 +130,6 @@
         public System.Windows.Forms.ListBox listBoxHistory;
         private CustomizedBorRadPanel customizedBorRadPanel1;
         private CustomizedBorRadPanel customizedBorRadPanel2;
+        public System.Windows.Forms.Button buttonClearHistory;
     }
 }
