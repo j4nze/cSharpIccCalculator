@@ -35,6 +35,7 @@
             this.customizedNoCaretTextBoxPresentValue = new cSharpIccCalculator.CustomizedNoCaretTextBox();
             this.textBoxPreviousValue = new System.Windows.Forms.TextBox();
             this.customizedBorRadPanel2 = new cSharpIccCalculator.CustomizedBorRadPanel();
+            this.ucHistoryForm = new cSharpIccCalculator.HistoryForm();
             this.customizedBorRadButtonPlusMinus = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonDecimal = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButton0 = new cSharpIccCalculator.CustomizedBorRadButton();
@@ -55,7 +56,6 @@
             this.customizedBorRadButtonSubtraction = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonAddition = new cSharpIccCalculator.CustomizedBorRadButton();
             this.customizedBorRadButtonClear = new cSharpIccCalculator.CustomizedBorRadButton();
-            this.ucHistoryForm = new cSharpIccCalculator.HistoryForm();
             this.customizedBorRadPanel1.SuspendLayout();
             this.customizedBorRadPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -154,6 +154,7 @@
             this.customizedBorRadPanel2.BorderRadius = 6;
             this.customizedBorRadPanel2.BorderSize = 0;
             this.customizedBorRadPanel2.Controls.Add(this.ucHistoryForm);
+            this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonClearEntry);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonPlusMinus);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonDecimal);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButton0);
@@ -169,7 +170,6 @@
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonPercent);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButton2);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonEqual);
-            this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonClearEntry);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonMultiplication);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonSubtraction);
             this.customizedBorRadPanel2.Controls.Add(this.customizedBorRadButtonAddition);
@@ -179,6 +179,22 @@
             this.customizedBorRadPanel2.Padding = new System.Windows.Forms.Padding(5);
             this.customizedBorRadPanel2.Size = new System.Drawing.Size(454, 390);
             this.customizedBorRadPanel2.TabIndex = 44;
+            // 
+            // ucHistoryForm
+            // 
+            this.ucHistoryForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ucHistoryForm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ucHistoryForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(65)))), ((int)(((byte)(79)))));
+            this.ucHistoryForm.Font = new System.Drawing.Font("Gadugi", 12F);
+            this.ucHistoryForm.Location = new System.Drawing.Point(0, 0);
+            this.ucHistoryForm.Margin = new System.Windows.Forms.Padding(4);
+            this.ucHistoryForm.Name = "ucHistoryForm";
+            this.ucHistoryForm.Padding = new System.Windows.Forms.Padding(15);
+            this.ucHistoryForm.Size = new System.Drawing.Size(454, 390);
+            this.ucHistoryForm.TabIndex = 41;
+            this.ucHistoryForm.Visible = false;
             // 
             // customizedBorRadButtonPlusMinus
             // 
@@ -354,7 +370,7 @@
             this.customizedBorRadButton9.ForeColor = System.Drawing.Color.White;
             this.customizedBorRadButton9.Location = new System.Drawing.Point(230, 84);
             this.customizedBorRadButton9.Name = "customizedBorRadButton9";
-            this.customizedBorRadButton9.Size = new System.Drawing.Size(105, 71);
+            this.customizedBorRadButton9.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButton9.TabIndex = 48;
             this.customizedBorRadButton9.Text = "9";
             this.customizedBorRadButton9.TextColor = System.Drawing.Color.White;
@@ -393,7 +409,7 @@
             this.customizedBorRadButton7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.customizedBorRadButton7.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customizedBorRadButton7.ForeColor = System.Drawing.Color.White;
-            this.customizedBorRadButton7.Location = new System.Drawing.Point(8, 85);
+            this.customizedBorRadButton7.Location = new System.Drawing.Point(8, 84);
             this.customizedBorRadButton7.Name = "customizedBorRadButton7";
             this.customizedBorRadButton7.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButton7.TabIndex = 46;
@@ -435,7 +451,7 @@
             this.customizedBorRadButtonPercent.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
             this.customizedBorRadButtonPercent.Location = new System.Drawing.Point(230, 8);
             this.customizedBorRadButtonPercent.Name = "customizedBorRadButtonPercent";
-            this.customizedBorRadButtonPercent.Size = new System.Drawing.Size(105, 68);
+            this.customizedBorRadButtonPercent.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButtonPercent.TabIndex = 43;
             this.customizedBorRadButtonPercent.Text = "%";
             this.customizedBorRadButtonPercent.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
@@ -495,7 +511,7 @@
             this.customizedBorRadButtonClearEntry.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
             this.customizedBorRadButtonClearEntry.Location = new System.Drawing.Point(119, 8);
             this.customizedBorRadButtonClearEntry.Name = "customizedBorRadButtonClearEntry";
-            this.customizedBorRadButtonClearEntry.Size = new System.Drawing.Size(105, 68);
+            this.customizedBorRadButtonClearEntry.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButtonClearEntry.TabIndex = 44;
             this.customizedBorRadButtonClearEntry.Text = "C";
             this.customizedBorRadButtonClearEntry.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
@@ -513,7 +529,7 @@
             this.customizedBorRadButtonMultiplication.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.customizedBorRadButtonMultiplication.Font = new System.Drawing.Font("Gadugi", 15F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.customizedBorRadButtonMultiplication.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(224)))), ((int)(((byte)(224)))), ((int)(((byte)(224)))));
-            this.customizedBorRadButtonMultiplication.Location = new System.Drawing.Point(341, 84);
+            this.customizedBorRadButtonMultiplication.Location = new System.Drawing.Point(342, 84);
             this.customizedBorRadButtonMultiplication.Name = "customizedBorRadButtonMultiplication";
             this.customizedBorRadButtonMultiplication.Size = new System.Drawing.Size(105, 70);
             this.customizedBorRadButtonMultiplication.TabIndex = 57;
@@ -583,22 +599,6 @@
             this.customizedBorRadButtonClear.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(189)))), ((int)(((byte)(79)))), ((int)(((byte)(66)))));
             this.customizedBorRadButtonClear.UseVisualStyleBackColor = false;
             this.customizedBorRadButtonClear.Click += new System.EventHandler(this.customizedBorRadButtonClear_Click);
-            // 
-            // ucHistoryForm
-            // 
-            this.ucHistoryForm.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ucHistoryForm.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.ucHistoryForm.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(58)))), ((int)(((byte)(65)))), ((int)(((byte)(79)))));
-            this.ucHistoryForm.Font = new System.Drawing.Font("Gadugi", 12F);
-            this.ucHistoryForm.Location = new System.Drawing.Point(0, 0);
-            this.ucHistoryForm.Margin = new System.Windows.Forms.Padding(4);
-            this.ucHistoryForm.Name = "ucHistoryForm";
-            this.ucHistoryForm.Padding = new System.Windows.Forms.Padding(15);
-            this.ucHistoryForm.Size = new System.Drawing.Size(454, 390);
-            this.ucHistoryForm.TabIndex = 41;
-            this.ucHistoryForm.Visible = false;
             // 
             // CalculatorForm
             // 

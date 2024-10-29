@@ -55,9 +55,15 @@ namespace cSharpIccCalculator
                 textBoxPreviousValue.Text = (CalculatorHandler.Expression + " =").Trim();
                 customizedNoCaretTextBoxPresentValue.Text = result;
 
+                if (HistoryForm.isListEmpty)
+                {
+                    histHandler.ClearHistory(); // clear the list from handler to avoid reappearing old entries
+                    HistoryForm.isListEmpty = false;
+                }
+
                 string entry = CalculatorHandler.Equation;
+                ucHistoryForm.listBoxHistory.Items.Clear(); // clear the listbox items to put the new list (with new entry)
                 histHandler.AddEntry(entry);
-                ucHistoryForm.listBoxHistory.Items.Clear();
                 ucHistoryForm.listBoxHistory.Items.AddRange(histHandler.GetHistory().ToArray());
                 ucHistoryForm.buttonClearHistory.Visible = true;
             }

@@ -13,12 +13,14 @@ namespace cSharpIccCalculator
     public partial class HistoryForm : UserControl
     {
         private HistoryHandler histHandler;
-        public static bool isListEmpty = true;
+        public static bool isListEmpty;
         public HistoryForm()
         {
             InitializeComponent();
             histHandler = new HistoryHandler();
             histHandler.AddEntry("There's no history yet.");
+            listBoxHistory.Items.AddRange(histHandler.GetHistory().ToArray());
+            isListEmpty = true;
             buttonClearHistory.Visible = false;
         }
 
@@ -27,6 +29,8 @@ namespace cSharpIccCalculator
             listBoxHistory.Items.Clear();
             histHandler.ClearHistory(); // clear the list
             histHandler.AddEntry("There's no history yet.");
+            listBoxHistory.Items.AddRange(histHandler.GetHistory().ToArray());
+            isListEmpty = true;
             buttonClearHistory.Visible = false;
         }
     }
