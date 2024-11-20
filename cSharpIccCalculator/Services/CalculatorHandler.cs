@@ -12,6 +12,8 @@ namespace cSharpIccCalculator
         public static string Expression = "";
         private static string Result = "";
         public static string Equation = "";
+        public static int lastNumericEntry = 0;
+        public static string lastOpertorEntry = "";
 
         private static bool isDecimalInEntryUsed = false;
         private static bool isOperatorInEntryUsed = false;
@@ -39,27 +41,34 @@ namespace cSharpIccCalculator
 
                 if (isArithmeticOperationPerformed) Clear();
 
+                string numericValue = PresentValue.Replace(",", "");
+                int numericLength = numericValue.Replace(".", "").Length;
+
+                if (numericLength >= 18 && input != ".") return PresentValue;   // 18 Numeric Character Limit
+
                 if (LimitedDecimalFormat(PresentValue)) return PresentValue;
 
                 if (input == "0")
                 { 
                     
-                    if (PresentValue == "0") return PresentValue;       // determine when to append zero, specifically if zero is leading
+                    if (PresentValue == "0") return PresentValue;               // determine when to append zero, specifically if zero is leading
                     else PresentValue += "0";
                 }
                 else if (input == ".")
                 {
-                    if (!isDecimalInEntryUsed) PresentValue += ".";     // append decimal if its not used
+                    if (!isDecimalInEntryUsed) PresentValue += ".";             // append decimal if its not used
 
                     isDecimalInEntryUsed = true;
                 }
                 else
                 {
-                    if (PresentValue == "0") PresentValue = input;      // overwrite 0 with a non zero value
-                    else PresentValue += input;                         // append 0 (non leading)
+                    if (PresentValue == "0") PresentValue = input;              // overwrite 0 with a non zero value
+                    else PresentValue += input;                                 // append 0 (non leading)
                 }
 
                 PresentValue = ThousandSeparatorFormat(PresentValue);
+
+                lastNumericEntry = Convert.ToInt32(PresentValue);
 
                 return PresentValue;
             }
@@ -102,6 +111,7 @@ namespace cSharpIccCalculator
 
                 Expression += " " + input;
                 PreviousValue = Expression;
+                lastOpertorEntry = input;
                 isDecimalInEntryUsed = false;
                 isOperatorInEntryUsed = true;
                 isArithmeticOperationPerformed = false;
@@ -129,7 +139,7 @@ namespace cSharpIccCalculator
                     PresentValue = ThousandSeparatorFormat(PresentValue);
                     Expression += " " + PresentValue;
                 }
-                else Expression = Result;
+                else Expression = Result + " " + lastOpertorEntry + " " + lastNumericEntry;
                 
                 string cleanedExpression = Expression.Replace(" ", "").Replace(",", "");
                 if (Expression.Contains("/ 0")) throw new DivideByZeroException();                              // detect if expression has divisible by 0
@@ -272,6 +282,8 @@ namespace cSharpIccCalculator
             PreviousValue = "";
             Expression = "";
             Result = "";
+            lastNumericEntry = 0;
+            lastOpertorEntry = "";
             isDecimalInEntryUsed = false;
             isOperatorInEntryUsed = false;
             isArithmeticOperationPerformed = false;
